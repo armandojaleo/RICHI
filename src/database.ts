@@ -1,9 +1,15 @@
 import mongoose from 'mongoose'
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/rrhh', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true
-})
-    .then(db => console.log('Database is connected'))
-    .catch(err => console.log(err));
+export async function connect() {
+    try {
+        await mongoose.connect('mongodb://localhost/rrhh', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true
+        });
+        console.log('>>> Database connected');
+    }
+    catch {
+        console.log('Error');
+    }
+}

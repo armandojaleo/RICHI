@@ -1,12 +1,10 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import app from './app';
-import './database';
+import App from './app';
+import { connect } from './database';
 
-function init() {
-    app.listen(app.get('port'));
-    console.log('Server on port', 3000);
-};
+const app = new App();
+connect();
 
-init();
+app.start();
