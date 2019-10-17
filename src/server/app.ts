@@ -27,7 +27,7 @@ class Application {
 
     routes() {
         this.app.use('/api/auth', AuthRoutes);
-        this.app.use('/api/employee', EmployeeRoutes);
+        this.app.use('/api/employees', EmployeeRoutes);
         this.app.use(express.static(path.join(__dirname, 'public')));
     }
 
