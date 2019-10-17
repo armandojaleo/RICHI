@@ -1,11 +1,15 @@
 import { Router } from 'express';
 const router = Router();
 
-import { signup, signin, profile } from '../controllers/auth'
+import EmployeeController from '../controllers/employee'
 import { TokenValidation } from '../libs/verifyToken'
 
-router.post('/signup', signup);
-router.post('/signin', signin);
-router.get('/profile', TokenValidation, profile)
+const employeeController = new EmployeeController
+
+router.get('/', TokenValidation, employeeController.getEmployees)
+router.post('/', TokenValidation , employeeController.createEmployee);
+router.get('/:id', TokenValidation, employeeController.getEmployee);
+router.put('/:id', TokenValidation, employeeController.editEmployee);
+router.delete('/:id', TokenValidation, employeeController.deleteEmployee);
 
 export default router;

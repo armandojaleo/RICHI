@@ -1,9 +1,10 @@
 import express from 'express';
 import morgan from 'morgan';
-import AuthController from './routes/auth'
+import AuthRoutes from './routes/auth'
+import EmployeeRoutes from './routes/employee'
 import path from 'path';
 
-class Applicaction {
+class Application {
 
     app: express.Application;
 
@@ -16,7 +17,6 @@ class Applicaction {
 
     settings() {
         this.app.set('port', 4000);
-        this.app.set('views', path.join(__dirname, 'views'));
     }
 
     middlewares() {
@@ -26,7 +26,8 @@ class Applicaction {
     }
 
     routes() {
-        this.app.use('/api/auth', AuthController);
+        this.app.use('/api/auth', AuthRoutes);
+        this.app.use('/api/employee', EmployeeRoutes);
         this.app.use(express.static(path.join(__dirname, 'public')));
     }
 
@@ -37,4 +38,4 @@ class Applicaction {
     }
 }
 
-export default Applicaction;
+export default Application;
