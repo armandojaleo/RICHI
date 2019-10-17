@@ -1,0 +1,216 @@
+{
+	"info": {
+		"_postman_id": "d3e56552-72de-4b9f-abcf-b9132d58e416",
+		"name": "rrhh",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:4000/api/auth/signup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"kirasumairu\",\n\t\"email\":\"info@kirasumairu.com\",\n\t\"password\":\"admin1234\"\n}"
+				},
+				"url": {
+					"raw": "localhost:4000/api/auth/signup",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/api/auth/signin",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"armando@armandojaleo.com\",\n\t\"password\":\"admin1234\"\n}"
+				},
+				"url": {
+					"raw": "localhost:4000/api/auth/signin",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/api/auth/profile",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGE3YjdkM2YyYjY4MjNkZDQ3YzE3OTciLCJpYXQiOjE1NzEyNzI5OTN9.D8_AD63_FrtLNB3ksM-S36bxDkgqGBoMTBwtiYa2R-c"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "localhost:4000/api/auth/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/api/employees/",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGE3YjdkM2YyYjY4MjNkZDQ3YzE3OTciLCJpYXQiOjE1NzEyNzI5OTN9.D8_AD63_FrtLNB3ksM-S36bxDkgqGBoMTBwtiYa2R-c"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "localhost:4000/api/employees",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/api/employee",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGE3YjdkM2YyYjY4MjNkZDQ3YzE3OTciLCJpYXQiOjE1NzEyNzI5OTN9.D8_AD63_FrtLNB3ksM-S36bxDkgqGBoMTBwtiYa2R-c"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"Robin\",\n\t\"position\":\"Developer\",\n\t\"office\":\"Central\",\n\t\"salary\":\"100000\"\n}"
+				},
+				"url": {
+					"raw": "localhost:4000/api/employees",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/api/employee",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGE3YjdkM2YyYjY4MjNkZDQ3YzE3OTciLCJpYXQiOjE1NzEyNzI5OTN9.D8_AD63_FrtLNB3ksM-S36bxDkgqGBoMTBwtiYa2R-c"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"Armando\",\n\t\"position\":\"Developer\",\n\t\"office\":\"Central\",\n\t\"salary\":\"100000\"\n}"
+				},
+				"url": {
+					"raw": "localhost:4000/api/employees/5da7bb21b956571b98bb25e1",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"employees",
+						"5da7bb21b956571b98bb25e1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/api/employee",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGE3YjdkM2YyYjY4MjNkZDQ3YzE3OTciLCJpYXQiOjE1NzEyNzI5OTN9.D8_AD63_FrtLNB3ksM-S36bxDkgqGBoMTBwtiYa2R-c"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:4000/api/employees/5da7bb21b956571b98bb25e1",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"employees",
+						"5da7bb21b956571b98bb25e1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
