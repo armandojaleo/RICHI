@@ -7,9 +7,9 @@ export async function connect() {
             useUnifiedTopology: true,
             useCreateIndex: true
         });
-        console.log('>>> Database connected');
+        console.log('Database connected');
     }
     catch {
-        console.log('Error database');
+        console.log('Error database connection');
     }
 }

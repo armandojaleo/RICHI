@@ -33,7 +33,7 @@ class Application {
 
     start(): void {
         this.app.listen(this.app.get('port'), () => {
-            console.log('>>> Server is running at', this.app.get('port'));
+            console.log('Server is running at', this.app.get('port'));
         });
     }
 }
