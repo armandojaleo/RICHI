@@ -6,7 +6,7 @@ class EmployeeController {
     app: express.Application;
 
     constructor() {
-        this.app = express();
+        this.app = express(); 
     }
 
     // Get all employees
@@ -21,12 +21,7 @@ class EmployeeController {
     // New employee
     public createEmployee = async (req: Request, res: Response) => {
         try {
-            const newEmployee: IEmployee = new Employee({
-                name: req.body.name,
-                position: req.body.position,
-                office: req.body.office,
-                salary: req.body.salary
-            });
+            const newEmployee: IEmployee = new Employee(req.body);
             await newEmployee.save();
             return res.json(newEmployee);
         } catch (e) {
@@ -46,12 +41,7 @@ class EmployeeController {
     // Edit employee
     public editEmployee = async (req: Request, res: Response) => {
         const { id } = req.params;
-        const employee = {
-            name: req.body.name,
-            position: req.body.position,
-            office: req.body.office,
-            salary: req.body.salary
-        };
+        const employee = req.body;
         await Employee.findByIdAndUpdate(id, { $set: employee }, { new: true });
         res.json(employee);
     };

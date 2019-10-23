@@ -10,6 +10,6 @@ export async function connect() {
         console.log('>>> Database connected');
     }
     catch {
-        console.log('Error');
+        console.log('Error database');
     }
 }
