@@ -1,13 +1,13 @@
 {
-  "name": "jwt-simple-typescript",
+  "name": "rrhhapi",
   "version": "1.0.0",
-  "description": "",
+  "description": "RRHH: employee and recruitment management API",
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"tsc -w\" \"nodemon dist/index.js\""
   },
   "keywords": [],
-  "author": "",
+  "author": "armandojaleo and kirasumairu",
   "license": "ISC",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
