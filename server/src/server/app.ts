@@ -1,8 +1,10 @@
 import express from 'express';
 import morgan from 'morgan';
 import AuthRoutes from './routes/auth'
+import ContractRoutes from './routes/contract'
 import EmployeeRoutes from './routes/employee'
 import path from 'path';
+import cors from 'cors';
 
 class Application {
 
@@ -21,12 +23,14 @@ class Application {
 
     middlewares() {
         this.app.use(morgan('dev'));
+        this.app.use(cors());
         this.app.use(express.urlencoded({extended: false}));
         this.app.use(express.json());
     }
 
     routes() {
         this.app.use('/api/auth', AuthRoutes);
+        this.app.use('/api/contracts', ContractRoutes);
         this.app.use('/api/employees', EmployeeRoutes);
         this.app.use(express.static(path.join(__dirname, 'public')));
     }

@@ -31,7 +31,7 @@ class EmployeeController {
 
     // Get one
     public getEmployee = async (req: Request, res: Response) => {
-        const employee = await Employee.findById(req.employeeId);
+        const employee = await Employee.findById(req.params.id);
         if (!employee) {
             return res.status(404).json('No Employee found');
         }

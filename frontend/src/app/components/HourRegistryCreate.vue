@@ -1,25 +1,18 @@
 <template>
   <div>
-    <h1>Create An Item</h1>
-    <form v-on:submit.prevent="addItem">
+    <h1>Create HourRegistry</h1>
+    <form v-on:submit.prevent="createHourRegistry">
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <label>Item Name:</label>
+            <label>Name:</label>
             <input type="text" class="form-control" v-model="item.name">
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Item Price:</label>
-            <input type="text" class="form-control col-md-6" v-model="item.price">
-          </div>
-        </div>
-      </div><br />
+      <br />
       <div class="form-group">
-        <button class="btn btn-primary">Add Item</button>
+        <button class="btn btn-primary">Create HourRegistry</button>
       </div>
     </form>
   </div>
@@ -35,12 +28,12 @@
       }
     },
     methods: {
-      addItem(){
-        let uri = 'http://localhost:3000/items/add';
+      createHourRegistry(){
+        let uri = 'http://localhost:4000/api/hourregistries';
         this.axios.post(uri, this.item).then((response) => {
           console.log(response);
           toastr.success(response.data.item, 'Response');
-          this.$router.replace({ name: 'DisplayItem'})
+          this.$router.replace({ name: 'HourRegistryList'})
         });
       }
     }

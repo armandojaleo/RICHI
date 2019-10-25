@@ -31,7 +31,7 @@ class ContractController {
 
     // Get one
     public getContract = async (req: Request, res: Response) => {
-        const contract = await Contract.findById(req.contractId);
+        const contract = await Contract.findById(req.params.id);
         if (!contract) {
             return res.status(404).json('No Contract found');
         }

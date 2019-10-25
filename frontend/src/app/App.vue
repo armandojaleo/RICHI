@@ -1,20 +1,46 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-      <router-link :to="{ name: 'DisplayItem' }" class="navbar-brand">
-        VuejsNode
-      </router-link>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">RRHH</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <router-link :to="{ name: 'CreateItem' }" class="nav-link">
-              Create
-            </router-link>
+            <a class="nav-link" href="/">
+              Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <router-link :to="{ name: 'ContractList' }" class="nav-link">Contracts</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link :to="{ name: 'EmployeeList' }" class="nav-link">Employees</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link :to="{ name: 'HourRegistryList' }" class="nav-link">Hour Registry</router-link>
           </li>
         </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
       </div>
     </nav>
     <!-- CONTENT -->
@@ -29,17 +55,15 @@
 </template>
 
 <style>
-  .fade-enter-active .fade-leave-active {
-    transition: opacity .5s;
-  }
+.fade-enter-active .fade-leave-active {
+  transition: opacity 0.5s;
+}
 
-  .fade-enter .fade-leave-active {
-    transition: 0;
-  }
+.fade-enter .fade-leave-active {
+  transition: 0;
+}
 </style>
 
 <script>
-  export default {
-
-  }
+export default {};
 </script>
