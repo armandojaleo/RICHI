@@ -1,12 +1,21 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-Vue.use(VueRouter);
+import '@babel/polyfill'
+import 'mutationobserver-shim'
+import Vue from 'vue'
+import './plugins/bootstrap-vue'
+import App from './App.vue'
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
 
 import VueAxios from 'vue-axios';
 import axios from 'axios';
 Vue.use(VueAxios, axios);
 
-import App from './App.vue';
+Vue.use(require('vue-moment'));
+
+import SignIn from './components/SignIn.vue';
+import SignUp from './components/SignUp.vue';
+import Profile from './components/Profile.vue';
 
 import ContractList from './components/ContractList.vue';
 import ContractCreate from './components/ContractCreate.vue';
@@ -16,40 +25,48 @@ import EmployeeList from './components/EmployeeList.vue';
 import EmployeeCreate from './components/EmployeeCreate.vue';
 import EmployeeEdit from './components/EmployeeEdit.vue';
 
+import HolidayList from './components/HolidayList.vue';
+import HolidayCreate from './components/HolidayCreate.vue';
+import HolidayEdit from './components/HolidayEdit.vue';
+
 import HourRegistryList from './components/HourRegistryList.vue';
 import HourRegistryCreate from './components/HourRegistryCreate.vue';
 import HourRegistryEdit from './components/HourRegistryEdit.vue';
 
 const routes = [
   {
+    path: "/",
+    redirect: "/contracts"
+  },
+  {
+    name: 'SignIn',
+    path: '/signin',
+    component: SignIn
+  },
+  {
+    name: 'SignUp',
+    path: '/signup',
+    component: SignUp
+  },
+  {
+    name: 'Profile',
+    path: '/profile',
+    component: Profile
+  },
+  {
     name: 'ContractList',
     path: '/contracts',
-    component: ContractList,
-    meta: {
-      title: "Contracts",
-      forVisitors: true
-      //forAuth: true
-    }
+    component: ContractList
   },
   {
     name: 'ContractCreate',
     path: '/contracts/create',
-    component: ContractCreate,
-    meta: {
-      title: "Contracts",
-      forVisitors: true
-      //forAuth: true
-    }
+    component: ContractCreate
   },
   {
     name: 'ContractEdit',
     path: '/contracts/:id',
-    component: ContractEdit,
-    meta: {
-      title: "Contracts",
-      forVisitors: true
-      //forAuth: true
-    }
+    component: ContractEdit
   },
   {
     name: 'EmployeeList',
@@ -65,6 +82,21 @@ const routes = [
     name: 'EmployeeEdit',
     path: '/employees/:id',
     component: EmployeeEdit
+  },
+  {
+    name: 'HolidayList',
+    path: '/holidays',
+    component: HolidayList
+  },
+  {
+    name: 'HolidayCreate',
+    path: '/holidays/create',
+    component: HolidayCreate
+  },
+  {
+    name: 'HolidayEdit',
+    path: '/holidays/:id',
+    component: HolidayEdit
   },
 
   {
@@ -90,6 +122,10 @@ const router = new VueRouter(
     routes: routes
   }
 );
-new Vue(
-  Vue.util.extend({ router }, App)
-).$mount('#app');
+
+Vue.config.productionTip = false
+
+new Vue({
+  render: h => h(App),
+  router
+}).$mount('#app')

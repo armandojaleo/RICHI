@@ -3,6 +3,8 @@ import morgan from 'morgan';
 import AuthRoutes from './routes/auth'
 import ContractRoutes from './routes/contract'
 import EmployeeRoutes from './routes/employee'
+import HourRegistryRoutes from './routes/hourregistry'
+import HolidayRoutes from './routes/holiday'
 import path from 'path';
 import cors from 'cors';
 
@@ -32,6 +34,8 @@ class Application {
         this.app.use('/api/auth', AuthRoutes);
         this.app.use('/api/contracts', ContractRoutes);
         this.app.use('/api/employees', EmployeeRoutes);
+        this.app.use('/api/hourregistries', HourRegistryRoutes);
+        this.app.use('/api/holidays', HolidayRoutes);
         this.app.use(express.static(path.join(__dirname, 'public')));
     }
 

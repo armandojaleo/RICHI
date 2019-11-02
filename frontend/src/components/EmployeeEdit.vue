@@ -1,33 +1,35 @@
 <template>
   <div>
-    <h1>Update Employee</h1>
-    <div class="row">
-      <div class="col-md-10"></div>
-      <div class="col-md-2">
-        <router-link :to="{ name: 'EmployeeList' }" class="btn btn-success">Return to List</router-link>
+    <div class="row p-4">
+      <div class="col-md-12">
+        <h1 class="d-inline">Edit Employees</h1>
+        <router-link
+          :to="{ name: 'EmployeeList' }"
+          class="btn btn-success float-right mt-2"
+        >Return to List</router-link>
       </div>
     </div>
-    <form v-on:submit.prevent>
+    <form v-on:submit.prevent="updateEmployee">
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
             <label>Name</label>
-            <input type="text" class="form-control" v-model="item.name" />
+            <input type="text" class="form-control" v-model="item.name" required>
           </div>
         </div>
       </div>
       <div class="form-inline mb-2" v-for="(item, index) in item.properties" :key="item.properties">
         <div class="form-group">
-          <input type="text" class="form-control mr-2" v-model="item.label" placeholder="Property" />
-          <input type="text" class="form-control mr-2" v-model="item.value" placeholder="Value" />
-          <button class="btn btn-warning" @click="deleteProperty(index)">Delete</button>
+          <input type="text" class="form-control mr-2" v-model="item.label" placeholder="Property">
+          <input type="text" class="form-control mr-2" v-model="item.value" placeholder="Value">
+          <a class="btn btn-warning text-white" @click="deleteProperty(index)">Delete</a>
         </div>
         <br />
       </div>
       <br />
       <div class="form-group">
-        <button class="btn btn-primary" v-on:click="updateEmployee">Update</button>
-        <button class="btn btn-secondary" v-on:click="addProperty">Add Property</button>
+        <button class="btn btn-primary">Update</button>
+        <a class="btn btn-secondary text-white" v-on:click="addProperty">Add Property</a>
       </div>
     </form>
   </div>
@@ -65,7 +67,7 @@ export default {
     },
     updateEmployee() {
       let uri = "http://localhost:4000/api/employees/" + this.$route.params.id;
-      this.axios.put(uri, this.item).then(response => {
+      this.axios.put(uri, this.item).then(() => {
         this.$router.push({ name: "EmployeeList" });
       });
     }
