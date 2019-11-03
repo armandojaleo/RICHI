@@ -47,9 +47,17 @@ export const signin = async (req: Request, res: Response) => {
 };
 
 export const profile = async (req: Request, res: Response) => {
-    const user = await User.findById(req.userId, { password: 0 });
+    const user = await User.findById(req.body._id, { password: 0 });
     if (!user) {
         return res.status(404).json('No User found');
     }
     res.json(user);
+};
+
+export const users = async (req: Request, res: Response) => {
+    const users = await User.find();
+    if (!users) {
+        return res.status(404).json('No Users found');
+    }
+    res.json(users);
 };

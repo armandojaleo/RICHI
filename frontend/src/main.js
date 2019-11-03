@@ -17,6 +17,8 @@ import SignIn from './components/SignIn.vue';
 import SignUp from './components/SignUp.vue';
 import Profile from './components/Profile.vue';
 
+import UserList from './components/UserList.vue';
+
 import ContractList from './components/ContractList.vue';
 import ContractCreate from './components/ContractCreate.vue';
 import ContractEdit from './components/ContractEdit.vue';
@@ -52,6 +54,11 @@ const routes = [
     name: 'Profile',
     path: '/profile',
     component: Profile
+  },
+  {
+    name: 'UserList',
+    path: '/users',
+    component: UserList
   },
   {
     name: 'ContractList',

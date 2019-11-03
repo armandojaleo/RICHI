@@ -5,6 +5,7 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
+          <router-link :to="{ name: 'UserList' }" class="nav-link">Users</router-link>
           <router-link :to="{ name: 'ContractList' }" class="nav-link">Contracts</router-link>
           <router-link :to="{ name: 'EmployeeList' }" class="nav-link">Employees</router-link>
           <router-link :to="{ name: 'HolidayList' }" class="nav-link">Holidays</router-link>
