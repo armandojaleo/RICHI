@@ -69,6 +69,7 @@ export default {
   },
   methods: {
     createHoliday() {
+      const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
@@ -76,6 +77,8 @@ export default {
       this.axios.post(uri, this.item, auth).then(response => {
         toastr.success(response.data.item, "Holiday created");
         this.$router.replace({ name: "HolidayList" });
+      }).catch(function () {
+        router.push("/SignIn");
       });
     },
     addProperty() {

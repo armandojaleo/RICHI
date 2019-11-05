@@ -39,7 +39,7 @@
           <div class="form-group">
             <label>Role</label>
             <select v-model="item.role" class="form-control" required>
-              <option v-for="option in item.options" v-bind:value="option.value" :key="option.value">
+              <option v-for="option in options" v-bind:value="option.value" :key="option.value">
                 {{ option.text }}
               </option>
             </select>
@@ -59,8 +59,8 @@ import toastr from "toastr";
 export default {
   data() {
     return {
-      item: {
-        role: null,
+      item: {},
+      role: null,
         options: [
           { value: null, text: 'Please select an option' },
           { value: 'Admin', text: 'Admin' },
@@ -68,12 +68,12 @@ export default {
           { value: 'Employee', text: 'Employee' },
           { value: 'Visitor', text: 'Visitor' }
         ]
-      }
     };
   },
 
   methods: {
     createUser() {
+      const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
@@ -81,6 +81,8 @@ export default {
       this.axios.post(uri, this.item, auth).then(response => {
         toastr.success(response.data.item, "User created");
         this.$router.push({ name: "UserList" });
+      }).catch(function () {
+        router.push("/SignIn");
       });
     }
   }

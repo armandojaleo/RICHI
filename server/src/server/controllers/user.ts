@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express'
+
 import User, { IUser } from '../models/User'
 
 class UserController {
@@ -20,6 +21,11 @@ class UserController {
 
     // New user
     public createUser = async (req: Request, res: Response) => {
+
+        // Email Validation
+        const emailExists = await User.findOne({ email: req.body.email });
+        if (emailExists) return res.status(400).json('Email already exists');
+
         try {
             const newUser: IUser = new User(req.body);
             newUser.password = await newUser.encrypPassword(newUser.password);
@@ -42,7 +48,8 @@ class UserController {
     // Edit user
     public editUser = async (req: Request, res: Response) => {
         const { id } = req.params;
-        const user = req.body;
+        const user: IUser = new User(req.body);
+        user.password = await user.encrypPassword(user.password);
         await User.findByIdAndUpdate(id, { $set: user }, { new: true });
         res.json(user);
     };

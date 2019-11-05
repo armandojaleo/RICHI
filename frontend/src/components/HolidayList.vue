@@ -58,15 +58,19 @@ export default {
 
   methods: {
     fetchHolidays() {
+      const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
       let uri = "http://localhost:4000/api/holidays";
       this.axios.get(uri, auth).then(response => {
         this.items = response.data;
+      }).catch(function () {
+        router.push("/SignIn");
       });
     },
     deleteHoliday(id, index) {
+      const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
@@ -74,7 +78,9 @@ export default {
       if (response) {
         let uri = "http://localhost:4000/api/holidays/" + id;
         this.items.splice(index, 1);
-        this.axios.delete(uri, auth);
+        this.axios.delete(uri, auth).catch(function () {
+        router.push("/SignIn");
+      });
       }
     }
   }

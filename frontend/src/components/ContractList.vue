@@ -54,10 +54,10 @@ export default {
 
   methods: {
     fetchContracts() {
+      const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
-      const router = this.$router;
       let uri = "http://localhost:4000/api/contracts";
       this.axios.get(uri, auth).then(response => {
         if (response.status)
@@ -67,6 +67,7 @@ export default {
       });
     },
     deleteContract(id, index) {
+      const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
@@ -74,7 +75,9 @@ export default {
       if (response) {
         let uri = "http://localhost:4000/api/contracts/" + id;
         this.items.splice(index, 1);
-        this.axios.delete(uri, auth);
+        this.axios.delete(uri, auth).catch(function () {
+        router.push("/SignIn");
+      });
       }
     }
   }

@@ -5,11 +5,11 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <router-link :to="{ name: 'UserList' }" class="nav-link">Users</router-link>
-          <router-link :to="{ name: 'ContractList' }" class="nav-link">Contracts</router-link>
-          <router-link :to="{ name: 'EmployeeList' }" class="nav-link">Employees</router-link>
-          <router-link :to="{ name: 'HolidayList' }" class="nav-link">Holidays</router-link>
-          <router-link :to="{ name: 'HourRegistryList' }" class="nav-link">Hour Registry</router-link>
+          <router-link v-if="user.role=='Admin'" :to="{ name: 'UserList' }" class="nav-link">Users</router-link>
+          <router-link v-if="user.role=='Admin'" :to="{ name: 'ContractList' }" class="nav-link">Contracts</router-link>
+          <router-link v-if="user.role=='Admin'" :to="{ name: 'EmployeeList' }" class="nav-link">Employees</router-link>
+          <router-link v-if="user.role=='Admin'" :to="{ name: 'HolidayList' }" class="nav-link">Holidays</router-link>
+          <router-link v-if="user.role=='Admin'" :to="{ name: 'HourRegistryList' }" class="nav-link">Hour Registry</router-link>
         </b-navbar-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
@@ -40,6 +40,9 @@
 <script>
 export default {
   name: "NavBar",
+  props: {
+    user: Object
+  },
   methods: {
     signOut() {
       localStorage.removeItem("authtoken");

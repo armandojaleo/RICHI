@@ -54,21 +54,27 @@ export default {
   },
   methods: {
     getHourRegistry() {
+      const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
       let uri = "http://localhost:4000/api/hourregistries/" + this.$route.params.id;
       this.axios.get(uri, auth).then(response => {
         this.item = response.data;
+      }).catch(function () {
+        router.push("/SignIn");
       });
     },
     updateHourRegistry() {
+      const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
       let uri = "http://localhost:4000/api/hourregistries/" + this.$route.params.id;
       this.axios.put(uri, this.item, auth).then(() => {
         this.$router.push({ name: "HourRegistryList" });
+      }).catch(function () {
+        router.push("/SignIn");
       });
     }
   }

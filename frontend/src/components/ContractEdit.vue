@@ -51,12 +51,15 @@ export default {
 
   methods: {
     getContract() {
+      const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
       let uri = "http://localhost:4000/api/contracts/" + this.$route.params.id;
       this.axios.get(uri, auth).then(response => {
         this.item = response.data;
+      }).catch(function () {
+        router.push("/SignIn");
       });
     },
     addProperty() {
@@ -68,10 +71,13 @@ export default {
     deleteProperty(index) {
       this.item.properties.splice(index, 1);
     },
-    updateContract() {
+    updateContract() {4
+      const router = this.$router;
       let uri = "http://localhost:4000/api/contracts/" + this.$route.params.id;
       this.axios.put(uri, this.item).then(() => {
         this.$router.push({ name: "ContractList" });
+      }).catch(function () {
+        router.push("/SignIn");
       });
     }
   }

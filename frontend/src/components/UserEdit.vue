@@ -14,7 +14,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label>Username</label>
-            <input type="text" class="form-control" v-model="item.username" required>
+            <input type="text" class="form-control" v-model="item.username" required />
           </div>
         </div>
       </div>
@@ -22,7 +22,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label>Email</label>
-            <input type="text" class="form-control" v-model="item.email" required>
+            <input type="text" class="form-control" v-model="item.email" required />
           </div>
         </div>
       </div>
@@ -30,7 +30,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label>Password</label>
-            <input type="password" class="form-control" v-model="item.password" required>
+            <input type="password" class="form-control" v-model="item.password" required />
           </div>
         </div>
       </div>
@@ -39,9 +39,11 @@
           <div class="form-group">
             <label>Role</label>
             <select v-model="item.role" class="form-control" required>
-              <option v-for="option in item.options" v-bind:value="option.value" :key="option.value">
-                {{ option.text }}
-              </option>
+              <option
+                v-for="option in options"
+                v-bind:value="option.value"
+                :key="option.value"
+              >{{ option.text }}</option>
             </select>
           </div>
         </div>
@@ -57,16 +59,15 @@
 export default {
   data() {
     return {
-      item: {
-        role: null,
-        options: [
-          { value: null, text: "Please select an option" },
-          { value: "Admin", text: "Admin" },
-          { value: "Manager", text: "Manager" },
-          { value: "Employee", text: "Employee" },
-          { value: "Visitor", text: "Visitor" }
-        ]
-      }
+      item: {},
+      role: null,
+      options: [
+        { value: null, text: "Please select an option" },
+        { value: "Admin", text: "Admin" },
+        { value: "Manager", text: "Manager" },
+        { value: "Employee", text: "Employee" },
+        { value: "Visitor", text: "Visitor" }
+      ]
     };
   },
 
@@ -76,21 +77,27 @@ export default {
 
   methods: {
     getUser() {
+      const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
       let uri = "http://localhost:4000/api/users/" + this.$route.params.id;
       this.axios.get(uri, auth).then(response => {
         this.item = response.data;
+      }).catch(function () {
+        router.push("/SignIn");
       });
     },
     updateUser() {
+      const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
       let uri = "http://localhost:4000/api/users/" + this.$route.params.id;
       this.axios.put(uri, this.item, auth).then(() => {
         this.$router.push({ name: "UserList" });
+      }).catch(function () {
+        router.push("/SignIn");
       });
     }
   }

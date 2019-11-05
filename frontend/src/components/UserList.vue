@@ -16,6 +16,7 @@
             <tr>
               <th scrope="col">Username</th>
               <th scrope="col">Email</th>
+              <th scrope="col">Role</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -23,6 +24,7 @@
             <tr scope="row" v-for="(item, index) in items" :key="item.item">
               <td>{{ item.username }}</td>
               <td>{{ item.email }}</td>
+              <td>{{ item.role }}</td>
               <td>
                 <router-link
                   :to="{ name: 'UserEdit', params: {id: item._id} }"
@@ -56,15 +58,19 @@ export default {
 
   methods: {
     fetchUsers() {
+      const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
       let uri = "http://localhost:4000/api/users";
       this.axios.get(uri, auth).then(response => {
         this.items = response.data;
+      }).catch(function () {
+        router.push("/SignIn");
       });
     },
     deleteUser(id, index) {
+      const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
@@ -72,7 +78,9 @@ export default {
       if (response) {
         let uri = "http://localhost:4000/api/users/" + id;
         this.items.splice(index, 1);
-        this.axios.delete(uri, auth);
+        this.axios.delete(uri, auth).catch(function () {
+        router.push("/SignIn");
+      });
       }
     }
   }

@@ -51,12 +51,15 @@ export default {
 
   methods: {
     getEmployee() {
+      const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
       let uri = "http://localhost:4000/api/employees/" + this.$route.params.id;
       this.axios.get(uri, auth).then(response => {
         this.item = response.data;
+      }).catch(function () {
+        router.push("/SignIn");
       });
     },
     addProperty() {
@@ -69,9 +72,12 @@ export default {
       this.item.properties.splice(index, 1);
     },
     updateEmployee() {
+      const router = this.$router;
       let uri = "http://localhost:4000/api/employees/" + this.$route.params.id;
       this.axios.put(uri, this.item).then(() => {
         this.$router.push({ name: "EmployeeList" });
+      }).catch(function () {
+        router.push("/SignIn");
       });
     }
   }

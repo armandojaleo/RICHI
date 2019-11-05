@@ -52,6 +52,7 @@ export default {
   },
   methods: {
     createHourRegistry() {
+      const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
@@ -59,6 +60,8 @@ export default {
       this.axios.post(uri, this.item, auth).then(response => {
         toastr.success(response.data.item, "Hour Registry created");
         this.$router.replace({ name: "HourRegistryList" });
+      }).catch(function () {
+        router.push("/SignIn");
       });
     }
   }

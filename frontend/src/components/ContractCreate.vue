@@ -46,6 +46,7 @@ export default {
   },
   methods: {
     createContract() {
+      const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
@@ -53,6 +54,8 @@ export default {
       this.axios.post(uri, this.item, auth).then(response => {
         toastr.success(response.data.item, "Contract created");
         this.$router.replace({ name: "ContractList" });
+      }).catch(function () {
+        router.push("/SignIn");
       });
     },
     addProperty() {
