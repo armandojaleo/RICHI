@@ -69,8 +69,11 @@ export default {
   },
   methods: {
     createHoliday() {
+      const auth = {
+        headers: { "auth-token": localStorage.authtoken }
+      };
       let uri = "http://localhost:4000/api/holidays";
-      this.axios.post(uri, this.item).then(response => {
+      this.axios.post(uri, this.item, auth).then(response => {
         toastr.success(response.data.item, "Holiday created");
         this.$router.replace({ name: "HolidayList" });
       });

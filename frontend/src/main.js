@@ -18,6 +18,8 @@ import SignUp from './components/SignUp.vue';
 import Profile from './components/Profile.vue';
 
 import UserList from './components/UserList.vue';
+import UserCreate from './components/UserCreate.vue';
+import UserEdit from './components/UserEdit.vue';
 
 import ContractList from './components/ContractList.vue';
 import ContractCreate from './components/ContractCreate.vue';
@@ -59,6 +61,16 @@ const routes = [
     name: 'UserList',
     path: '/users',
     component: UserList
+  },
+  {
+    name: 'UserCreate',
+    path: '/users/create',
+    component: UserCreate
+  },
+  {
+    name: 'UserEdit',
+    path: '/users/:id',
+    component: UserEdit
   },
   {
     name: 'ContractList',

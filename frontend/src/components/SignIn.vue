@@ -6,17 +6,17 @@
         <h1 class="d-inline">Sign In</h1>
       </div>
     </div>
-    <b-form @submit="signin">
+    <b-form v-on:submit.prevent="signin">
       <b-form-group
-        id="usernamelabel"
+        id="emaillabel"
         label-cols-sm="4"
         label-cols-lg="3"
-        description="Let us know your username."
-        label="Enter your username"
-        label-for="username">
+        description="Let us know your email."
+        label="Enter your email"
+        label-for="email">
         <b-form-input 
           id="input-horizontal" 
-          v-model="item.username"
+          v-model="item.email"
           required>
         </b-form-input>
       </b-form-group>
@@ -56,8 +56,14 @@
     methods: {
       signin() {
         let uri = "http://localhost:4000/api/auth/signin";
-        this.axios.post(uri, this.item).then(() => {
-          this.$router.replace({ name: "Profile" });
+        const router = this.$router;
+        this.axios.post(uri, this.item).then(response => {
+          localStorage.authtoken = response.data;
+          this.$router.push("/Profile");
+        }).catch(function (error) {
+          if (error.response) {
+            router.push("/SignIn");
+          }
         });
       }
     },

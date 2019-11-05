@@ -56,17 +56,23 @@ export default {
 
   methods: {
     fetchUsers() {
-      let uri = "http://localhost:4000/api/auth/users";
-      this.axios.get(uri).then(response => {
+      const auth = {
+        headers: { "auth-token": localStorage.authtoken }
+      };
+      let uri = "http://localhost:4000/api/users";
+      this.axios.get(uri, auth).then(response => {
         this.items = response.data;
       });
     },
     deleteUser(id, index) {
+      const auth = {
+        headers: { "auth-token": localStorage.authtoken }
+      };
       const response = confirm("are you sure you want to delete?");
       if (response) {
-        let uri = "http://localhost:4000/api/auth/users/" + id;
+        let uri = "http://localhost:4000/api/users/" + id;
         this.items.splice(index, 1);
-        this.axios.delete(uri);
+        this.axios.delete(uri, auth);
       }
     }
   }

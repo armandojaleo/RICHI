@@ -51,8 +51,11 @@ export default {
 
   methods: {
     getContract() {
+      const auth = {
+        headers: { "auth-token": localStorage.authtoken }
+      };
       let uri = "http://localhost:4000/api/contracts/" + this.$route.params.id;
-      this.axios.get(uri).then(response => {
+      this.axios.get(uri, auth).then(response => {
         this.item = response.data;
       });
     },

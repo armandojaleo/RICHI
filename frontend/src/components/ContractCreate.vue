@@ -46,8 +46,11 @@ export default {
   },
   methods: {
     createContract() {
+      const auth = {
+        headers: { "auth-token": localStorage.authtoken }
+      };
       let uri = "http://localhost:4000/api/contracts";
-      this.axios.post(uri, this.item).then(response => {
+      this.axios.post(uri, this.item, auth).then(response => {
         toastr.success(response.data.item, "Contract created");
         this.$router.replace({ name: "ContractList" });
       });

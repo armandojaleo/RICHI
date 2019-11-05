@@ -54,17 +54,23 @@ export default {
 
   methods: {
     fetchEmployees() {
+      const auth = {
+        headers: { "auth-token": localStorage.authtoken }
+      };
       let uri = "http://localhost:4000/api/employees";
-      this.axios.get(uri).then(response => {
+      this.axios.get(uri, auth).then(response => {
         this.items = response.data;
       });
     },
     deleteEmployee(id, index) {
+      const auth = {
+        headers: { "auth-token": localStorage.authtoken }
+      };
       const response = confirm("are you sure you want to delete?");
       if (response) {
         let uri = "http://localhost:4000/api/employees/" + id;
         this.items.splice(index, 1);
-        this.axios.delete(uri);
+        this.axios.delete(uri, auth);
       }
     }
   }

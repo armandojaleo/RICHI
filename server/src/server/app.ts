@@ -1,6 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import AuthRoutes from './routes/auth'
+import UserRoutes from './routes/user'
 import ContractRoutes from './routes/contract'
 import EmployeeRoutes from './routes/employee'
 import HourRegistryRoutes from './routes/hourregistry'
@@ -32,6 +33,7 @@ class Application {
 
     routes() {
         this.app.use('/api/auth', AuthRoutes);
+        this.app.use('/api/users', UserRoutes);
         this.app.use('/api/contracts', ContractRoutes);
         this.app.use('/api/employees', EmployeeRoutes);
         this.app.use('/api/hourregistries', HourRegistryRoutes);

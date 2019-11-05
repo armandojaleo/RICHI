@@ -6,7 +6,7 @@
         <h1 class="d-inline">Sign Up</h1>
       </div>
     </div>
-    <b-form @submit="signup">
+    <b-form v-on:submit.prevent="signup">
       <b-form-group
         id="usernamelabel"
         label-cols-sm="4"

@@ -54,17 +54,27 @@ export default {
 
   methods: {
     fetchContracts() {
+      const auth = {
+        headers: { "auth-token": localStorage.authtoken }
+      };
+      const router = this.$router;
       let uri = "http://localhost:4000/api/contracts";
-      this.axios.get(uri).then(response => {
+      this.axios.get(uri, auth).then(response => {
+        if (response.status)
         this.items = response.data;
+      }).catch(function () {
+        router.push("/SignIn");
       });
     },
     deleteContract(id, index) {
+      const auth = {
+        headers: { "auth-token": localStorage.authtoken }
+      };
       const response = confirm("are you sure you want to delete?");
       if (response) {
         let uri = "http://localhost:4000/api/contracts/" + id;
         this.items.splice(index, 1);
-        this.axios.delete(uri);
+        this.axios.delete(uri, auth);
       }
     }
   }

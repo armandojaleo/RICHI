@@ -15,11 +15,7 @@ export const signup = async (req: Request, res: Response) => {
 
     // Saving a new User
     try {
-        const newUser: IUser = new User({
-            username: req.body.username,
-            email: req.body.email,
-            password: req.body.password
-        });
+        const newUser: IUser = new User(req.body);
         newUser.password = await newUser.encrypPassword(newUser.password);
         const savedUser = await newUser.save();
 
@@ -47,17 +43,9 @@ export const signin = async (req: Request, res: Response) => {
 };
 
 export const profile = async (req: Request, res: Response) => {
-    const user = await User.findById(req.body._id, { password: 0 });
+    const user = await User.findById(req.userId, { password: 0 });
     if (!user) {
         return res.status(404).json('No User found');
     }
     res.json(user);
-};
-
-export const users = async (req: Request, res: Response) => {
-    const users = await User.find();
-    if (!users) {
-        return res.status(404).json('No Users found');
-    }
-    res.json(users);
 };
