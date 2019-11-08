@@ -42,8 +42,7 @@ import HourRegistryList from './components/HourRegistryList.vue';
 import HourRegistryCreate from './components/HourRegistryCreate.vue';
 import HourRegistryEdit from './components/HourRegistryEdit.vue';
 
-const routes = [
-  {
+const routes = [{
     name: 'Welcome',
     path: '/',
     component: Welcome,
@@ -98,9 +97,9 @@ const routes = [
     meta: {
       requiresAuth: true,
       adminAuth: true,
-      managerAuth: true,
-      employeeAuth: true,
-      visitorAuth: true
+      managerAuth: false,
+      employeeAuth: false,
+      visitorAuth: false
     }
   },
   {
@@ -110,9 +109,9 @@ const routes = [
     meta: {
       requiresAuth: true,
       adminAuth: true,
-      managerAuth: true,
-      employeeAuth: true,
-      visitorAuth: true
+      managerAuth: false,
+      employeeAuth: false,
+      visitorAuth: false
     }
   },
   {
@@ -122,9 +121,9 @@ const routes = [
     meta: {
       requiresAuth: true,
       adminAuth: true,
-      managerAuth: true,
-      employeeAuth: true,
-      visitorAuth: true
+      managerAuth: false,
+      employeeAuth: false,
+      visitorAuth: false
     }
   },
   {
@@ -134,9 +133,9 @@ const routes = [
     meta: {
       requiresAuth: true,
       adminAuth: true,
-      managerAuth: true,
-      employeeAuth: true,
-      visitorAuth: true
+      managerAuth: false,
+      employeeAuth: false,
+      visitorAuth: false
     }
   },
   {
@@ -146,9 +145,9 @@ const routes = [
     meta: {
       requiresAuth: true,
       adminAuth: true,
-      managerAuth: true,
-      employeeAuth: true,
-      visitorAuth: true
+      managerAuth: false,
+      employeeAuth: false,
+      visitorAuth: false
     }
   },
   {
@@ -158,9 +157,9 @@ const routes = [
     meta: {
       requiresAuth: true,
       adminAuth: true,
-      managerAuth: true,
-      employeeAuth: true,
-      visitorAuth: true
+      managerAuth: false,
+      employeeAuth: false,
+      visitorAuth: false
     }
   },
   {
@@ -171,8 +170,8 @@ const routes = [
       requiresAuth: true,
       adminAuth: true,
       managerAuth: true,
-      employeeAuth: true,
-      visitorAuth: true
+      employeeAuth: false,
+      visitorAuth: false
     }
   },
   {
@@ -183,8 +182,8 @@ const routes = [
       requiresAuth: true,
       adminAuth: true,
       managerAuth: true,
-      employeeAuth: true,
-      visitorAuth: true
+      employeeAuth: false,
+      visitorAuth: false
     }
   },
   {
@@ -195,8 +194,8 @@ const routes = [
       requiresAuth: true,
       adminAuth: true,
       managerAuth: true,
-      employeeAuth: true,
-      visitorAuth: true
+      employeeAuth: false,
+      visitorAuth: false
     }
   },
   {
@@ -208,7 +207,7 @@ const routes = [
       adminAuth: true,
       managerAuth: true,
       employeeAuth: true,
-      visitorAuth: true
+      visitorAuth: false
     }
   },
   {
@@ -220,7 +219,7 @@ const routes = [
       adminAuth: true,
       managerAuth: true,
       employeeAuth: true,
-      visitorAuth: true
+      visitorAuth: false
     }
   },
   {
@@ -232,7 +231,7 @@ const routes = [
       adminAuth: true,
       managerAuth: true,
       employeeAuth: true,
-      visitorAuth: true
+      visitorAuth: false
     }
   },
 
@@ -245,7 +244,7 @@ const routes = [
       adminAuth: true,
       managerAuth: true,
       employeeAuth: true,
-      visitorAuth: true
+      visitorAuth: false
     }
   },
   {
@@ -257,7 +256,7 @@ const routes = [
       adminAuth: true,
       managerAuth: true,
       employeeAuth: true,
-      visitorAuth: true
+      visitorAuth: false
     }
   },
   {
@@ -269,7 +268,7 @@ const routes = [
       adminAuth: true,
       managerAuth: true,
       employeeAuth: true,
-      visitorAuth: true
+      visitorAuth: false
     }
   }
 ];
@@ -286,24 +285,28 @@ router.beforeEach((to, from, next) => {
       next({
         name: 'SignIn'
       })
-    } else if (to.meta.adminAuth) {
-      const authUser = JSON.parse(localStorage.userdata)
-      if (authUser.role === 'Admin') {
+    }
+    if (to.meta.visitorAuth) {
+      const userData = JSON.parse(localStorage.userdata)
+      if (userData.role === 'Visitor') {
         next()
       }
-    } else if (to.meta.ManagerAuth) {
-      const authUser = JSON.parse(localStorage.userdata)
-      if (authUser.role === 'Manager') {
+    }
+    if (to.meta.employeeAuth) {
+      const userData = JSON.parse(localStorage.userdata)
+      if (userData.role === 'Employee') {
         next()
       }
-    } else if (to.meta.EmployeeAuth) {
-      const authUser = JSON.parse(localStorage.userdata)
-      if (authUser.role === 'Employee') {
+    }
+    if (to.meta.managerAuth) {
+      const userData = JSON.parse(localStorage.userdata)
+      if (userData.role === 'Manager') {
         next()
       }
-    } else if (to.meta.VisitorAuth) {
-      const authUser = JSON.parse(localStorage.userdata)
-      if (authUser.role === 'Visitor') {
+    }
+    if (to.meta.adminAuth) {
+      const userData = JSON.parse(localStorage.userdata)
+      if (userData.role === 'Admin') {
         next()
       }
     }
