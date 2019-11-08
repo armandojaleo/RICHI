@@ -56,19 +56,22 @@
     methods: {
       signin() {
         let uri = "http://localhost:4000/api/auth/signin";
-        const router = this.$router;
         this.axios.post(uri, this.item).then(response => {
           localStorage.authtoken = response.data;
-          this.$router.push("/Profile");
+          const auth = {
+            headers: { "auth-token": localStorage.authtoken }
+          };
+          let uri = "http://localhost:4000/api/auth/profile";
+          this.axios.get(uri, auth).then(response => {
+            localStorage.userdata = JSON.stringify(response.data);
+            document.location.href = "/Profile";
+          });
         }).catch(function (error) {
           if (error.response) {
-            router.push("/SignIn");
+            document.location.href = "/SignIn";
           }
         });
       }
-    },
-    computed: {
-
     }
 }
 
