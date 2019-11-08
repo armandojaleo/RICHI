@@ -22,19 +22,12 @@
       return {
 
       }
-    },
-    methods: {
-
-    },
-    computed: {
-
     }
-}
+  }
 
 </script>
 
 <style scoped lang="scss">
-  .profile {
-
-  }
+.profile {
+}
 </style>

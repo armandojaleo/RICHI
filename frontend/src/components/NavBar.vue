@@ -5,11 +5,11 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <router-link v-if="user.role=='Admin'" :to="{ name: 'UserList' }" class="nav-link">Users</router-link>
-          <router-link v-if="user.role=='Admin'" :to="{ name: 'ContractList' }" class="nav-link">Contracts</router-link>
-          <router-link v-if="user.role=='Admin'" :to="{ name: 'EmployeeList' }" class="nav-link">Employees</router-link>
-          <router-link v-if="user.role=='Admin'" :to="{ name: 'HolidayList' }" class="nav-link">Holidays</router-link>
-          <router-link v-if="user.role=='Admin'" :to="{ name: 'HourRegistryList' }" class="nav-link">Hour Registry</router-link>
+          <router-link v-if="role == 'Admin'" :to="{ name: 'UserList' }" class="nav-link">Users</router-link>
+          <router-link v-if="role == 'Admin'" :to="{ name: 'ContractList' }" class="nav-link">Contracts</router-link>
+          <router-link v-if="role == 'Admin' || role == 'Manager'" :to="{ name: 'EmployeeList' }" class="nav-link">Employees</router-link>
+          <router-link v-if="role == 'Admin'" :to="{ name: 'HolidayList' }" class="nav-link">Holidays</router-link>
+          <router-link v-if="role == 'Admin'" :to="{ name: 'HourRegistryList' }" class="nav-link">Hour Registry</router-link>
         </b-navbar-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
@@ -23,7 +23,7 @@
             <b-dropdown-item href="#">RU</b-dropdown-item>
             <b-dropdown-item href="#">FA</b-dropdown-item>
           </b-nav-item-dropdown>
-          <b-nav-item-dropdown right>
+          <b-nav-item-dropdown right v-if="role == 'Admin' || role == 'Manager' || role == 'Employee' || role == 'Visitor'">
             <!-- Using 'button-content' slot -->
             <template v-slot:button-content>
               <em>User</em>
@@ -31,6 +31,10 @@
             <b-dropdown-item :to="{ name: 'Profile' }">Profile</b-dropdown-item>
             <b-dropdown-item v-on:click="signOut()">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
+          <b-navbar-nav right v-else>
+            <router-link :to="{ name: 'SignUp' }" class="nav-link">Register</router-link>
+            <router-link :to="{ name: 'SignIn' }" class="nav-link">Login</router-link>
+          </b-navbar-nav>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -40,13 +44,21 @@
 <script>
 export default {
   name: "NavBar",
-  props: {
-    user: Object
+  data() {
+    return {
+      role: ''
+    }
+  },
+  created: function() {
+    if (localStorage.userdata) {
+      this.role = JSON.parse(localStorage.userdata).role
+    }
   },
   methods: {
     signOut() {
       localStorage.removeItem("authtoken");
-      this.$router.push("SignIn");
+      localStorage.removeItem("userdata");
+      document.location.href = "/";
     }
   }
 };
