@@ -2,43 +2,19 @@
   <div>
     <div class="row p-4">
       <div class="col-md-12">
-        <h1 class="d-inline">Create Holiday</h1>
+        <h1 class="d-inline">Create Resources</h1>
         <router-link
-          :to="{ name: 'HolidayList' }"
+          :to="{ name: 'ResourceList' }"
           class="btn btn-success float-right mt-2"
         >Return to List</router-link>
       </div>
     </div>
-    <form v-on:submit.prevent="createHoliday">
+    <form v-on:submit.prevent="createResource">
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
             <label>Name:</label>
             <input type="text" class="form-control" v-model="item.name" required>
-            <input type="hidden" v-model="item.user">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Description:</label>
-            <textarea class="form-control" v-model="item.description" required></textarea>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Dates:</label>
-            <div class="form-row">
-              <div class="col">
-                <input type="date" class="form-control" v-model="item.dateinit" required>
-              </div>
-              <div class="col">
-                <input type="date" class="form-control" v-model="item.dateend" required>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -50,7 +26,7 @@
         </div>
       </div>
       <div class="form-group">
-        <button class="btn btn-primary">Create Holiday</button>
+        <button class="btn btn-primary">Create Resource</button>
         <a class="btn btn-secondary ml-1 text-white" v-on:click="addProperty">Add Property</a>
       </div>
     </form>
@@ -64,21 +40,20 @@ export default {
   data() {
     return {
       item: {
-        user: JSON.parse(localStorage.userdata)._id,
         properties: []
       }
     };
   },
   methods: {
-    createHoliday() {
+    createResource() {
       const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
-      let uri = "http://localhost:4000/api/holidays";
+      let uri = "http://localhost:4000/api/resources";
       this.axios.post(uri, this.item, auth).then(response => {
-        toastr.success(response.data.item, "Holiday created");
-        this.$router.replace({ name: "HolidayList" });
+        toastr.success(response.data.item, "Resource created");
+        this.$router.replace({ name: "ResourceList" });
       }).catch(function () {
         router.push("/SignIn");
       });

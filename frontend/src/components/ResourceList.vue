@@ -2,11 +2,11 @@
   <div>
     <div class="row p-4">
       <div class="col-md-12">
-        <h1 class="d-inline">Contracts</h1>
+        <h1 class="d-inline">Resources</h1>
         <router-link
-          :to="{ name: 'ContractCreate' }"
+          :to="{ name: 'ResourceCreate' }"
           class="btn btn-primary float-right mt-2"
-        >Create Contract</router-link>
+        >Create Resource</router-link>
       </div>
     </div>
     <div v-if="items.length > 0">
@@ -23,12 +23,12 @@
               <td>{{ item.name }}</td>
               <td>
                 <router-link
-                  :to="{ name: 'ContractEdit', params: {id: item._id} }"
+                  :to="{ name: 'ResourceEdit', params: {id: item._id} }"
                   class="btn btn-primary btn-sm ml-1"
                 >Edit</router-link>
                 <button
                   class="btn btn-danger btn-sm ml-1"
-                  v-on:click="deleteContract(item._id, index)"
+                  v-on:click="deleteResource(item._id, index)"
                 >Delete</button>
               </td>
             </tr>
@@ -49,31 +49,30 @@ export default {
   },
 
   created: function() {
-    this.fetchContracts();
+    this.fetchResources();
   },
 
   methods: {
-    fetchContracts() {
+    fetchResources() {
       const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
-      let uri = "http://localhost:4000/api/contracts";
+      let uri = "http://localhost:4000/api/resources";
       this.axios.get(uri, auth).then(response => {
-        if (response.status)
         this.items = response.data;
       }).catch(function () {
         router.push("/SignIn");
       });
     },
-    deleteContract(id, index) {
+    deleteResource(id, index) {
       const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
       const response = confirm("are you sure you want to delete?");
       if (response) {
-        let uri = "http://localhost:4000/api/contracts/" + id;
+        let uri = "http://localhost:4000/api/resources/" + id;
         this.items.splice(index, 1);
         this.axios.delete(uri, auth).catch(function () {
         router.push("/SignIn");

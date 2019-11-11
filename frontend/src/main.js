@@ -22,6 +22,9 @@ import SignIn from './components/SignIn.vue';
 import SignUp from './components/SignUp.vue';
 import Profile from './components/Profile.vue';
 
+import OfferList from './components/OfferList.vue';
+import OfferView from './components/OfferView.vue';
+
 import UserList from './components/UserList.vue';
 import UserCreate from './components/UserCreate.vue';
 import UserEdit from './components/UserEdit.vue';
@@ -33,6 +36,10 @@ import ContractEdit from './components/ContractEdit.vue';
 import EmployeeList from './components/EmployeeList.vue';
 import EmployeeCreate from './components/EmployeeCreate.vue';
 import EmployeeEdit from './components/EmployeeEdit.vue';
+
+import ResourceList from './components/ResourceList.vue';
+import ResourceCreate from './components/ResourceCreate.vue';
+import ResourceEdit from './components/ResourceEdit.vue';
 
 import HolidayList from './components/HolidayList.vue';
 import HolidayCreate from './components/HolidayCreate.vue';
@@ -76,6 +83,30 @@ const routes = [{
       managerAuth: false,
       employeeAuth: false,
       visitorAuth: false
+    }
+  },
+  {
+    name: 'OfferList',
+    path: '/offers',
+    component: OfferList,
+    meta: {
+      requiresAuth: true,
+      adminAuth: true,
+      managerAuth: true,
+      employeeAuth: true,
+      visitorAuth: true
+    }
+  },
+  {
+    name: 'OfferView',
+    path: '/offers/:id',
+    component: OfferView,
+    meta: {
+      requiresAuth: true,
+      adminAuth: true,
+      managerAuth: true,
+      employeeAuth: true,
+      visitorAuth: true
     }
   },
   {
@@ -195,6 +226,42 @@ const routes = [{
       adminAuth: true,
       managerAuth: true,
       employeeAuth: false,
+      visitorAuth: false
+    }
+  },
+  {
+    name: 'ResourceList',
+    path: '/resources',
+    component: ResourceList,
+    meta: {
+      requiresAuth: true,
+      adminAuth: true,
+      managerAuth: true,
+      employeeAuth: true,
+      visitorAuth: false
+    }
+  },
+  {
+    name: 'ResourceCreate',
+    path: '/resources/create',
+    component: ResourceCreate,
+    meta: {
+      requiresAuth: true,
+      adminAuth: true,
+      managerAuth: true,
+      employeeAuth: true,
+      visitorAuth: false
+    }
+  },
+  {
+    name: 'ResourceEdit',
+    path: '/resources/:id',
+    component: ResourceEdit,
+    meta: {
+      requiresAuth: true,
+      adminAuth: true,
+      managerAuth: true,
+      employeeAuth: true,
       visitorAuth: false
     }
   },

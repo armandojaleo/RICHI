@@ -6,6 +6,7 @@ import ContractRoutes from './routes/contract'
 import EmployeeRoutes from './routes/employee'
 import HourRegistryRoutes from './routes/hourregistry'
 import HolidayRoutes from './routes/holiday'
+import ResourcesRoutes from './routes/resource'
 import path from 'path';
 import cors from 'cors';
 
@@ -38,6 +39,7 @@ class Application {
         this.app.use('/api/employees', EmployeeRoutes);
         this.app.use('/api/hourregistries', HourRegistryRoutes);
         this.app.use('/api/holidays', HolidayRoutes);
+        this.app.use('/api/resources', ResourcesRoutes);
         this.app.use(express.static(path.join(__dirname, 'public')));
     }
 

@@ -5,9 +5,11 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
+          <router-link :to="{ name: 'OfferList' }" class="nav-link">Offers</router-link>
           <router-link v-if="role == 'Admin'" :to="{ name: 'UserList' }" class="nav-link">Users</router-link>
           <router-link v-if="role == 'Admin'" :to="{ name: 'ContractList' }" class="nav-link">Contracts</router-link>
           <router-link v-if="role == 'Admin' || role == 'Manager'" :to="{ name: 'EmployeeList' }" class="nav-link">Employees</router-link>
+          <router-link v-if="role == 'Admin' || role == 'Manager'" :to="{ name: 'ResourceList' }" class="nav-link">Resources</router-link>
           <router-link v-if="role == 'Admin' || role == 'Manager' || role == 'Employee'" :to="{ name: 'HolidayList' }" class="nav-link">Holidays</router-link>
           <router-link v-if="role == 'Admin' || role == 'Manager' || role == 'Employee'" :to="{ name: 'HourRegistryList' }" class="nav-link">Hour Registry</router-link>
         </b-navbar-nav>

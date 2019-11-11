@@ -13,8 +13,46 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <label>Name</label>
-            <input type="text" class="form-control" v-model="item.name" required>
+            <label>Contract:</label>
+            <select v-model="item.contract" class="form-control" required>
+              <option
+                v-for="option in options"
+                v-bind:value="option._id"
+                :key="option._id"
+              >{{ option.name }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Name:</label>
+            <input type="text" class="form-control" v-model="item.name" required />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Init Date:</label>
+            <input type="date" class="form-control" v-model="item.initdate" required />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Experiences:</label>
+            <textarea class="form-control" v-model="item.experiences"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Education:</label>
+            <textarea class="form-control" v-model="item.education"></textarea>
           </div>
         </div>
       </div>
@@ -22,14 +60,13 @@
         <div class="form-group">
           <input type="text" class="form-control mr-2" v-model="item.label" placeholder="Property">
           <input type="text" class="form-control mr-2" v-model="item.value" placeholder="Value">
-          <a class="btn btn-warning text-white" @click="deleteProperty(index)">Delete</a>
+          <a class="btn btn-warning text-white" v-on:click="deleteProperty(index)">Delete</a>
         </div>
         <br />
       </div>
-      <br />
       <div class="form-group">
         <button class="btn btn-primary">Update</button>
-        <a class="btn btn-secondary text-white" v-on:click="addProperty">Add Property</a>
+        <a class="btn btn-secondary ml-1 text-white" v-on:click="addProperty">Add Property</a>
       </div>
     </form>
   </div>
@@ -41,26 +78,46 @@ export default {
     return {
       item: {
         properties: []
-      }
+      },
+      contract: null,
+      options: []
     };
   },
 
   created: function() {
     this.getEmployee();
+    this.fetchContracts();
   },
-
   methods: {
+    fetchContracts() {
+      const router = this.$router;
+      const auth = {
+        headers: { "auth-token": localStorage.authtoken }
+      };
+      let uri = "http://localhost:4000/api/contracts";
+      this.axios
+        .get(uri, auth)
+        .then(response => {
+          this.options = response.data;
+        })
+        .catch(function() {
+          router.push("/SignIn");
+        });
+    },
     getEmployee() {
       const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
-      let uri = "http://localhost:4000/api/employees/" + this.$route.params.id;
-      this.axios.get(uri, auth).then(response => {
-        this.item = response.data;
-      }).catch(function () {
-        router.push("/SignIn");
-      });
+      let uri = "http://localhost:4000/api/users/" + this.$route.params.id;
+      this.axios
+        .get(uri, auth)
+        .then(response => {
+          this.item = response.data;
+        })
+        .catch(function() {
+          router.push("/SignIn");
+        });
     },
     addProperty() {
       this.item.properties.push({
@@ -72,13 +129,19 @@ export default {
       this.item.properties.splice(index, 1);
     },
     updateEmployee() {
+      const auth = {
+        headers: { "auth-token": localStorage.authtoken }
+      };
       const router = this.$router;
-      let uri = "http://localhost:4000/api/employees/" + this.$route.params.id;
-      this.axios.put(uri, this.item).then(() => {
-        this.$router.push({ name: "EmployeeList" });
-      }).catch(function () {
-        router.push("/SignIn");
-      });
+      let uri = "http://localhost:4000/api/users/" + this.$route.params.id;
+      this.axios
+        .put(uri, this.item, auth)
+        .then(() => {
+          this.$router.push({ name: "EmployeeList" });
+        })
+        .catch(function() {
+          router.push("/SignIn");
+        });
     }
   }
 };

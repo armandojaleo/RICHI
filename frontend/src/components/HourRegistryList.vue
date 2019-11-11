@@ -28,10 +28,10 @@
               <td>
                 <router-link
                   :to="{ name: 'HourRegistryEdit', params: {id: item._id} }"
-                  class="btn btn-primary btn-sm"
+                  class="btn btn-primary btn-sm ml-1"
                 >Edit</router-link>
                 <button
-                  class="btn btn-danger btn-sm"
+                  class="btn btn-danger btn-sm ml-1"
                   v-on:click="deleteHourRegistry(item._id, index)"
                 >Delete</button>
               </td>
@@ -59,10 +59,14 @@ export default {
   methods: {
     fetchHourRegistries() {
       const router = this.$router;
+      const user = JSON.parse(localStorage.userdata);
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
-      let uri = "http://localhost:4000/api/hourregistries";
+      let uri = "http://localhost:4000/api/users/" + user._id + "/hourregistries";
+      if ( user.role == "Admin" ) {
+        uri = "http://localhost:4000/api/hourregistries";
+      }
       this.axios.get(uri, auth).then(response => {
         this.items = response.data;
       }).catch(function () {

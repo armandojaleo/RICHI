@@ -15,6 +15,7 @@
           <div class="form-group">
             <label>Task:</label>
             <input type="text" class="form-control" v-model="item.task" required>
+            <input type="hidden" v-model="item.user">
           </div>
         </div>
       </div>
@@ -47,7 +48,9 @@ import toastr from "toastr";
 export default {
   data() {
     return {
-      item: {}
+      item: {
+        user: JSON.parse(localStorage.userdata)._id,
+      }
     };
   },
   methods: {

@@ -49,7 +49,9 @@ class UserController {
     public editUser = async (req: Request, res: Response) => {
         const { id } = req.params;
         const user: IUser = new User(req.body);
-        user.password = await user.encrypPassword(user.password);
+        if (user.password) {
+            user.password = await user.encrypPassword(user.password);
+        }
         await User.findByIdAndUpdate(id, { $set: user }, { new: true });
         res.json(user);
     };

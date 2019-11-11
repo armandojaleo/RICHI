@@ -28,10 +28,10 @@
               <td>
                 <router-link
                   :to="{ name: 'HolidayEdit', params: {id: item._id} }"
-                  class="btn btn-primary btn-sm"
+                  class="btn btn-primary btn-sm ml-1"
                 >Edit</router-link>
                 <button
-                  class="btn btn-danger btn-sm"
+                  class="btn btn-danger btn-sm ml-1"
                   v-on:click="deleteHoliday(item._id, index)"
                 >Delete</button>
               </td>
@@ -59,10 +59,14 @@ export default {
   methods: {
     fetchHolidays() {
       const router = this.$router;
+      const user = JSON.parse(localStorage.userdata);
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
-      let uri = "http://localhost:4000/api/holidays";
+      let uri = "http://localhost:4000/api/users/" + user._id + "/holidays";
+      if ( user.role == "Admin" ) {
+        uri = "http://localhost:4000/api/holidays";
+      }
       this.axios.get(uri, auth).then(response => {
         this.items = response.data;
       }).catch(function () {

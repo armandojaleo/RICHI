@@ -61,13 +61,12 @@ export default {
     return {
       item: {},
       role: null,
-        options: [
-          { value: null, text: 'Please select an option' },
-          { value: 'Admin', text: 'Admin' },
-          { value: 'Manager', text: 'Manager' },
-          { value: 'Employee', text: 'Employee' },
-          { value: 'Visitor', text: 'Visitor' }
-        ]
+      options: [
+        { value: 'Admin', text: 'Admin' },
+        { value: 'Manager', text: 'Manager' },
+        { value: 'Employee', text: 'Employee' },
+        { value: 'Visitor', text: 'Visitor' }
+      ]
     };
   },
 

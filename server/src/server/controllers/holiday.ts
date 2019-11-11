@@ -6,12 +6,21 @@ class HolidayController {
     app: express.Application;
 
     constructor() {
-        this.app = express(); 
+        this.app = express();
     }
 
     // Get all holidays
     public getHolidays = async (req: Request, res: Response) => {
         const holidays = await Holiday.find();
+        if (!holidays) {
+            return res.status(404).json('No Holidays found');
+        }
+        res.json(holidays);
+    };
+
+    // Get all holidays by user
+    public getHolidaysByUser = async (req: Request, res: Response) => {
+        const holidays = await Holiday.find({ user: req.params.user });
         if (!holidays) {
             return res.status(404).json('No Holidays found');
         }

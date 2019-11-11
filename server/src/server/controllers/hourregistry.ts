@@ -18,6 +18,15 @@ class HourRegistryController {
         res.json(hourregistries);
     };
 
+    // Get all hourregistries
+    public getHourRegistriesByUser = async (req: Request, res: Response) => {
+        const hourregistries = await HourRegistry.find({ user: req.params.user });
+        if (!hourregistries) {
+            return res.status(404).json('No HourRegistries found');
+        }
+        res.json(hourregistries);
+    };
+
     // New hourregistry
     public createHourRegistry = async (req: Request, res: Response) => {
         try {

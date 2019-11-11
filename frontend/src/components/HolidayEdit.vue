@@ -14,7 +14,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label>Name</label>
-            <input type="text" class="form-control" v-model="item.name" required />
+            <input type="text" class="form-control" v-model="item.name" required>
           </div>
         </div>
       </div>
@@ -32,10 +32,10 @@
             <label>Dates:</label>
             <div class="form-row">
               <div class="col">
-                <input type="date" class="form-control" v-model="item.dateinit" required />
+                <input type="date" class="form-control" v-model="item.dateinit" required>
               </div>
               <div class="col">
-                <input type="date" class="form-control" v-model="item.dateend" required />
+                <input type="date" class="form-control" v-model="item.dateend" required>
               </div>
             </div>
           </div>
@@ -43,14 +43,14 @@
       </div>
       <div class="form-inline mb-2" v-for="(item, index) in item.properties" :key="item.properties">
         <div class="form-group">
-          <input type="text" class="form-control mr-2" v-model="item.label" placeholder="Property" />
-          <input type="text" class="form-control mr-2" v-model="item.value" placeholder="Value" />
+          <input type="text" class="form-control mr-2" v-model="item.label" placeholder="Property">
+          <input type="text" class="form-control mr-2" v-model="item.value" placeholder="Value">
           <a class="btn btn-warning text-white" v-on:click="deleteProperty(index)">Delete</a>
         </div>
       </div>
       <div class="form-group">
         <button class="btn btn-primary">Update</button>
-        <a class="btn btn-secondary text-white" v-on:click="addProperty">Add Property</a>
+        <a class="btn btn-secondary ml-1 text-white" v-on:click="addProperty">Add Property</a>
       </div>
     </form>
   </div>
@@ -79,6 +79,7 @@ export default {
       let uri = "http://localhost:4000/api/holidays/" + this.$route.params.id;
       this.axios.get(uri, auth).then(response => {
         this.item = response.data;
+        this.item.user = JSON.parse(localStorage.userdata)._id;
       }).catch(function () {
         router.push("/SignIn");
       });
@@ -93,9 +94,12 @@ export default {
       this.item.properties.splice(index, 1);
     },
     updateHoliday() {
+      const auth = {
+        headers: { "auth-token": localStorage.authtoken }
+      };
       const router = this.$router;
       let uri = "http://localhost:4000/api/holidays/" + this.$route.params.id;
-      this.axios.put(uri, this.item).then(() => {
+      this.axios.put(uri, this.item, auth).then(() => {
         this.$router.push({ name: "HolidayList" });
       }).catch(function () {
         router.push("/SignIn");

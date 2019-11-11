@@ -62,7 +62,6 @@ export default {
       item: {},
       role: null,
       options: [
-        { value: null, text: "Please select an option" },
         { value: "Admin", text: "Admin" },
         { value: "Manager", text: "Manager" },
         { value: "Employee", text: "Employee" },
