@@ -11,6 +11,7 @@ class HolidayController {
 
     // Get all holidays
     public getHolidays = async (req: Request, res: Response) => {
+        if (req.userRole !== 'Admin' && req.userRole !== 'Manager') return res.status(403).json('Forbidden Access');
         const holidays = await Holiday.find();
         if (!holidays) {
             return res.status(404).json('No Holidays found');
@@ -20,6 +21,7 @@ class HolidayController {
 
     // Get all holidays by user
     public getHolidaysByUser = async (req: Request, res: Response) => {
+        if (req.userRole === 'Visitor') return res.status(403).json('Forbidden Access');
         const holidays = await Holiday.find({ user: req.params.user });
         if (!holidays) {
             return res.status(404).json('No Holidays found');
@@ -29,6 +31,7 @@ class HolidayController {
 
     // New holiday
     public createHoliday = async (req: Request, res: Response) => {
+        if (req.userRole === 'Visitor') return res.status(403).json('Forbidden Access');
         try {
             const newHoliday: IHoliday = new Holiday(req.body);
             await newHoliday.save();
@@ -40,6 +43,7 @@ class HolidayController {
 
     // Get one
     public getHoliday = async (req: Request, res: Response) => {
+        if (req.userRole === 'Visitor') return res.status(403).json('Forbidden Access');
         const holiday = await Holiday.findById(req.params.id);
         if (!holiday) {
             return res.status(404).json('No Holiday found');
@@ -49,6 +53,7 @@ class HolidayController {
 
     // Edit holiday
     public editHoliday = async (req: Request, res: Response) => {
+        if (req.userRole === 'Visitor') return res.status(403).json('Forbidden Access');
         const { id } = req.params;
         const holiday = req.body;
         await Holiday.findByIdAndUpdate(id, { $set: holiday }, { new: true });
@@ -57,6 +62,7 @@ class HolidayController {
 
     // Delete holiday
     public deleteHoliday = async (req: Request, res: Response) => {
+        if (req.userRole === 'Visitor') return res.status(403).json('Forbidden Access');
         await Holiday.findByIdAndRemove(req.params.id);
         res.json({ status: 'Holiday Deleted' });
     };

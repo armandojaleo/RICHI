@@ -9,6 +9,23 @@
         >Create Resource</router-link>
       </div>
     </div>
+    <b-table small hover responsive :busy="isBusy" :items="filtered" :fields="fields">
+      <template v-slot:table-busy>
+        <div class="text-center text-primary my-2">
+          <b-spinner class="align-middle"></b-spinner>
+          <strong>Loading...</strong>
+        </div>
+      </template>
+      <template slot="top-row" slot-scope="{ fields }">
+        <td v-for="field in fields" :key="field.key">
+          <input v-if="field.label != 'Actions'" v-model="filters[field.key]" :placeholder="field.label">
+        </td>
+      </template>
+      <template v-slot:cell(action)="data">
+        <router-link :to="'/contracts/' + data.item._id" class="btn btn-primary btn-sm ml-1">Edit</router-link>
+        <button class="btn btn-danger btn-sm ml-1" v-on:click="deleteResource(data.item._id)">Delete</button>
+      </template>
+    </b-table>
     <div v-if="items.length > 0">
       <div class="table-responsive-sm">
         <table class="table table-hover">

@@ -7,6 +7,7 @@ export interface IUser extends Document {
     password: string;
     encrypPassword(password: string): Promise<string>;
     validatePassword(password: string): Promise<boolean>;
+    role: string;
 };
 
 const userSchema = new Schema({
@@ -23,6 +24,10 @@ const userSchema = new Schema({
         lowercase: true
     },
     password: {
+        type: String,
+        required: true
+    },
+    role: {
         type: String,
         required: true
     }

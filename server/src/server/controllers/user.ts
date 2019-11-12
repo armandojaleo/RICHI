@@ -12,6 +12,7 @@ class UserController {
 
     // Get all users
     public getUsers = async (req: Request, res: Response) => {
+        if (req.userRole !== 'Admin') return res.status(403).json('Forbidden Access');
         const users = await User.find();
         if (!users) {
             return res.status(404).json('No Users found');
@@ -21,7 +22,7 @@ class UserController {
 
     // New user
     public createUser = async (req: Request, res: Response) => {
-
+        if (req.userRole !== 'Admin') return res.status(403).json('Forbidden Access');
         // Email Validation
         const emailExists = await User.findOne({ email: req.body.email });
         if (emailExists) return res.status(400).json('Email already exists');
@@ -47,6 +48,7 @@ class UserController {
 
     // Edit user
     public editUser = async (req: Request, res: Response) => {
+        if (req.userRole !== 'Admin') return res.status(403).json('Forbidden Access');
         const { id } = req.params;
         const user: IUser = new User(req.body);
         if (user.password) {
@@ -58,6 +60,7 @@ class UserController {
 
     // Delete user
     public deleteUser = async (req: Request, res: Response) => {
+        if (req.userRole !== 'Admin') return res.status(403).json('Forbidden Access');
         await User.findByIdAndRemove(req.params.id);
         res.json({ status: 'User Deleted' });
     };

@@ -12,19 +12,22 @@
     <form v-on:submit.prevent="applyOffer">
       <div class="row">
         <div class="col-md-6">
-          <b>Duration</b>: 
+          <b>Duration</b>
+          :
           {{ item.duration }}
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
-          <b>Location</b>:
+          <b>Location</b>
+          :
           {{ item.location }}
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
-          <b>Salary</b>: 
+          <b>Salary</b>
+          :
           {{ item.salary }}
         </div>
       </div>
@@ -64,18 +67,12 @@ export default {
 
   methods: {
     getOffer() {
-      const router = this.$router;
-      const auth = {
-        headers: { "auth-token": localStorage.authtoken }
-      };
-      let uri = "http://localhost:4000/api/contracts/" + this.$route.params.id;
-      this.axios.get(uri, auth).then(response => {
+      let uri = "http://localhost:4000/api/offers/" + this.$route.params.id;
+      this.axios.get(uri).then(response => {
         this.item = response.data;
-      }).catch(function () {
-        router.push("/SignIn");
       });
     },
-  
+
     applyOffer() {
       const router = this.$router;
       const user = JSON.parse(localStorage.userdata);
@@ -84,13 +81,20 @@ export default {
       };
       const response = confirm("are you sure you want to apply?");
       if (response) {
-        let uri = "http://localhost:4000/api/users/" + user._id + "/contracts/" + this.$route.params.id;
-        this.axios.post(uri, {}, auth).then(response => {
-          toastr.success(response.data.item, "You applied successfully!");
-          this.$router.replace({ name: "OfferList" });
-        }).catch(function () {
-          router.push("/SignIn");
-        });
+        let uri = "http://localhost:4000/api/users/" + user._id + "/offers/" + this.$route.params.id;
+        let userOffer = {
+          userId: user._id,
+          offerId: this.$route.params.id
+        }
+        this.axios
+          .post(uri, userOffer, auth)
+          .then(response => {
+            toastr.success(response.data.item, "You applied successfully!");
+            this.$router.replace({ name: "OfferList" });
+          })
+          .catch(function() {
+            router.push("/SignIn");
+          });
       }
     }
   }

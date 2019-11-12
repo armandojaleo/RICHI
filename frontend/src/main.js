@@ -90,11 +90,11 @@ const routes = [{
     path: '/offers',
     component: OfferList,
     meta: {
-      requiresAuth: true,
-      adminAuth: true,
-      managerAuth: true,
-      employeeAuth: true,
-      visitorAuth: true
+      requiresAuth: false,
+      adminAuth: false,
+      managerAuth: false,
+      employeeAuth: false,
+      visitorAuth: false
     }
   },
   {
@@ -102,11 +102,11 @@ const routes = [{
     path: '/offers/:id',
     component: OfferView,
     meta: {
-      requiresAuth: true,
-      adminAuth: true,
-      managerAuth: true,
-      employeeAuth: true,
-      visitorAuth: true
+      requiresAuth: false,
+      adminAuth: false,
+      managerAuth: false,
+      employeeAuth: false,
+      visitorAuth: false
     }
   },
   {

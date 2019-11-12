@@ -74,18 +74,11 @@ export default {
 
   methods: {
     fetchOffers() {
-      const router = this.$router;
-      const auth = {
-        headers: { "auth-token": localStorage.authtoken }
-      };
-      let uri = "http://localhost:4000/api/contracts";
+      let uri = "http://localhost:4000/api/offers";
       this.axios
-        .get(uri, auth)
+        .get(uri)
         .then(response => {
           if (response.status) this.items = response.data;
-        })
-        .catch(function() {
-          router.push("/SignIn");
         });
     },
     applyOffer(id) {
@@ -96,10 +89,13 @@ export default {
       };
       const response = confirm("are you sure you want to apply?");
       if (response) {
-        let uri =
-          "http://localhost:4000/api/users/" + user._id + "/contracts/" + id;
+        let uri = "http://localhost:4000/api/users/" + user._id + "/offers/" + id;
+        let userOffer = {
+          userId: user._id,
+          offerId: id
+        }
         this.axios
-          .post(uri, {}, auth)
+          .post(uri, userOffer, auth)
           .then(response => {
             toastr.success(response.data.item, "You applied successfully!");
             this.$router.replace({ name: "OfferList" });
@@ -107,20 +103,6 @@ export default {
           .catch(function() {
             router.push("/SignIn");
           });
-      }
-    },
-    deleteOffer(id, index) {
-      const router = this.$router;
-      const auth = {
-        headers: { "auth-token": localStorage.authtoken }
-      };
-      const response = confirm("are you sure you want to delete?");
-      if (response) {
-        let uri = "http://localhost:4000/api/contracts/" + id;
-        this.items.splice(index, 1);
-        this.axios.delete(uri, auth).catch(function() {
-          router.push("/SignIn");
-        });
       }
     }
   }

@@ -11,6 +11,7 @@ class HourRegistryController {
 
     // Get all hourregistries
     public getHourRegistries = async (req: Request, res: Response) => {
+        if (req.userRole !== 'Admin' && req.userRole !== 'Manager') return res.status(403).json('Forbidden Access');
         const hourregistries = await HourRegistry.find();
         if (!hourregistries) {
             return res.status(404).json('No HourRegistries found');
@@ -20,6 +21,7 @@ class HourRegistryController {
 
     // Get all hourregistries
     public getHourRegistriesByUser = async (req: Request, res: Response) => {
+        if (req.userRole === 'Visitor') return res.status(403).json('Forbidden Access');
         const hourregistries = await HourRegistry.find({ user: req.params.user });
         if (!hourregistries) {
             return res.status(404).json('No HourRegistries found');
@@ -29,6 +31,7 @@ class HourRegistryController {
 
     // New hourregistry
     public createHourRegistry = async (req: Request, res: Response) => {
+        if (req.userRole === 'Visitor') return res.status(403).json('Forbidden Access');
         try {
             const newHourRegistry: IHourRegistry = new HourRegistry(req.body);
             await newHourRegistry.save();
@@ -40,6 +43,7 @@ class HourRegistryController {
 
     // Get one
     public getHourRegistry = async (req: Request, res: Response) => {
+        if (req.userRole === 'Visitor') return res.status(403).json('Forbidden Access');
         const hourregistry = await HourRegistry.findById(req.params.id);
         if (!hourregistry) {
             return res.status(404).json('No HourRegistry found');
@@ -49,6 +53,7 @@ class HourRegistryController {
 
     // Edit hourregistry
     public editHourRegistry = async (req: Request, res: Response) => {
+        if (req.userRole === 'Visitor') return res.status(403).json('Forbidden Access');
         const { id } = req.params;
         const hourregistry = req.body;
         await HourRegistry.findByIdAndUpdate(id, { $set: hourregistry }, { new: true });
@@ -57,6 +62,7 @@ class HourRegistryController {
 
     // Delete hourregistry
     public deleteHourRegistry = async (req: Request, res: Response) => {
+        if (req.userRole === 'Visitor') return res.status(403).json('Forbidden Access');
         await HourRegistry.findByIdAndRemove(req.params.id);
         res.json({ status: 'HourRegistry Deleted' });
     };

@@ -19,7 +19,10 @@ export const signup = async (req: Request, res: Response) => {
         newUser.password = await newUser.encrypPassword(newUser.password);
         const savedUser = await newUser.save();
 
-        const token: string = jwt.sign({ _id: savedUser._id }, process.env['TOKEN_SECRET'] || '', {
+        const token: string = jwt.sign({ 
+            _id: savedUser._id,
+            role: savedUser.role
+         }, process.env['TOKEN_SECRET'] || '', {
             expiresIn: 60 * 60 * 24
         });
         // res.header('auth-token', token).json(token);
@@ -38,7 +41,10 @@ export const signin = async (req: Request, res: Response) => {
     if (!correctPassword) return res.status(400).json('Invalid Password');
 
     // Create a Token
-    const token: string = jwt.sign({ _id: user._id }, process.env['TOKEN_SECRET'] || '');
+    const token: string = jwt.sign({ 
+        _id: user._id,
+        role: user.role
+     }, process.env['TOKEN_SECRET'] || '');
     res.header('auth-token', token).json(token);
 };
 

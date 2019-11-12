@@ -14,6 +14,9 @@ export const signupValidation = (data: IUser) => {
         password: Joi
             .string()
             .min(6)
+            .required(),
+        role: Joi
+            .string()
             .required()
     });
     return userSchema.validate(data);

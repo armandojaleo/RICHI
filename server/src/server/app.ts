@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import AuthRoutes from './routes/auth'
 import UserRoutes from './routes/user'
 import ContractRoutes from './routes/contract'
+import OfferRoutes from './routes/offer'
 import EmployeeRoutes from './routes/employee'
 import HourRegistryRoutes from './routes/hourregistry'
 import HolidayRoutes from './routes/holiday'
@@ -36,6 +37,7 @@ class Application {
         this.app.use('/api/auth', AuthRoutes);
         this.app.use('/api/users', UserRoutes);
         this.app.use('/api/contracts', ContractRoutes);
+        this.app.use('/api/offers', OfferRoutes);
         this.app.use('/api/employees', EmployeeRoutes);
         this.app.use('/api/hourregistries', HourRegistryRoutes);
         this.app.use('/api/holidays', HolidayRoutes);

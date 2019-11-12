@@ -11,6 +11,7 @@ class ContractController {
 
     // Get all contracts
     public getContracts = async (req: Request, res: Response) => {
+        if (req.userRole !== 'Admin') return res.status(403).json('Forbidden Access');
         const contracts = await Contract.find();
         if (!contracts) {
             return res.status(404).json('No Contracts found');
@@ -20,6 +21,7 @@ class ContractController {
 
     // New contract
     public createContract = async (req: Request, res: Response) => {
+        if (req.userRole !== 'Admin') return res.status(403).json('Forbidden Access');
         try {
             const newContract: IContract = new Contract(req.body);
             await newContract.save();
@@ -31,6 +33,7 @@ class ContractController {
 
     // Get one
     public getContract = async (req: Request, res: Response) => {
+        if (req.userRole !== 'Admin') return res.status(403).json('Forbidden Access');
         const contract = await Contract.findById(req.params.id);
         if (!contract) {
             return res.status(404).json('No Contract found');
@@ -40,6 +43,7 @@ class ContractController {
 
     // Edit contract
     public editContract = async (req: Request, res: Response) => {
+        if (req.userRole !== 'Admin') return res.status(403).json('Forbidden Access');
         const { id } = req.params;
         const contract = req.body;
         await Contract.findByIdAndUpdate(id, { $set: contract }, { new: true });
@@ -48,6 +52,7 @@ class ContractController {
 
     // Delete contract
     public deleteContract = async (req: Request, res: Response) => {
+        if (req.userRole !== 'Admin') return res.status(403).json('Forbidden Access');
         await Contract.findByIdAndRemove(req.params.id);
         res.json({ status: 'Contract Deleted' });
     };
