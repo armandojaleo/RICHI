@@ -18,46 +18,18 @@
       </template>
       <template slot="top-row" slot-scope="{ fields }">
         <td v-for="field in fields" :key="field.key">
-          <input v-if="field.label != 'Actions'" v-model="filters[field.key]" :placeholder="field.label">
+          <input
+            v-if="field.label != 'Actions'"
+            v-model="filters[field.key]"
+            :placeholder="field.label"
+          />
         </td>
       </template>
       <template v-slot:cell(action)="data">
-        <router-link :to="'/contracts/' + data.item._id" class="btn btn-primary btn-sm ml-1">Edit</router-link>
+        <router-link :to="'/holidays/' + data.item._id" class="btn btn-primary btn-sm ml-1">Edit</router-link>
         <button class="btn btn-danger btn-sm ml-1" v-on:click="deleteHoliday(data.item._id)">Delete</button>
       </template>
     </b-table>
-    <div v-if="items.length > 0">
-      <div class="table-responsive-sm">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scrope="col">Name</th>
-              <th scrope="col">Init Date</th>
-              <th scrope="col">End Date</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr scope="row" v-for="(item, index) in items" :key="item.item">
-              <td>{{ item.name }}</td>
-              <td>{{ item.dateinit | moment("DD-MM-YYYY") }}</td>
-              <td>{{ item.dateend | moment("DD-MM-YYYY") }}</td>
-              <td>
-                <router-link
-                  :to="{ name: 'HolidayEdit', params: {id: item._id} }"
-                  class="btn btn-primary btn-sm ml-1"
-                >Edit</router-link>
-                <button
-                  class="btn btn-danger btn-sm ml-1"
-                  v-on:click="deleteHoliday(item._id, index)"
-                >Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div v-else>There aren't data</div>
   </div>
 </template>
 
@@ -65,7 +37,34 @@
 export default {
   data() {
     return {
-      items: []
+      isBusy: false,
+      filters: {
+        name: "",
+        initdate: "",
+        enddate: ""
+      },
+      items: [],
+      fields: [
+        {
+          label: "Name",
+          key: "name",
+          sortable: true
+        },
+        {
+          label: "Init Date",
+          key: "initdate",
+          sortable: true
+        },
+        {
+          label: "End Date",
+          key: "enddate",
+          sortable: true
+        },
+        {
+          label: "Actions",
+          key: "action"
+        }
+      ]
     };
   },
 
@@ -73,24 +72,52 @@ export default {
     this.fetchHolidays();
   },
 
+  computed: {
+    filtered() {
+      const filtered = this.items.filter(item => {
+        return Object.keys(this.filters).every(key =>
+          String(item[key])
+            .toLowerCase()
+            .includes(this.filters[key].toLowerCase())
+        );
+      });
+      return filtered.length > 0
+        ? filtered
+        : [
+            {
+              name: "",
+              initdate: "",
+              enddate: ""
+            }
+          ];
+    }
+  },
+
   methods: {
     fetchHolidays() {
+      this.isBusy = true;
       const router = this.$router;
       const user = JSON.parse(localStorage.userdata);
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
       let uri = "http://localhost:4000/api/users/" + user._id + "/holidays";
-      if ( user.role == "Admin" ) {
+      if (user.role == "Admin") {
         uri = "http://localhost:4000/api/holidays";
       }
-      this.axios.get(uri, auth).then(response => {
-        this.items = response.data;
-      }).catch(function () {
-        router.push("/SignIn");
-      });
+      this.axios
+        .get(uri, auth)
+        .then(response => {
+          if (response.status) {
+            this.items = response.data;
+          }
+          this.isBusy = false;
+        })
+        .catch(function() {
+          router.push("/SignIn");
+        });
     },
-    deleteHoliday(id, index) {
+    deleteHoliday(id) {
       const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
@@ -98,10 +125,11 @@ export default {
       const response = confirm("are you sure you want to delete?");
       if (response) {
         let uri = "http://localhost:4000/api/holidays/" + id;
-        this.items.splice(index, 1);
-        this.axios.delete(uri, auth).catch(function () {
-        router.push("/SignIn");
-      });
+        let index = this.items.findIndex(item => item._id === id);
+        if (index >= 0) this.items.splice(index, 1);
+        this.axios.delete(uri, auth).catch(function() {
+          router.push("/SignIn");
+        });
       }
     }
   }
