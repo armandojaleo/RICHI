@@ -14,7 +14,8 @@
         <div class="col-md-6">
           <div class="form-group">
             <label>Contract:</label>
-            <select v-model="item.contract" class="form-control" required>
+            <select v-model="item.contract" class="form-control">
+              <option value>No contract</option>
               <option
                 v-for="option in options"
                 v-bind:value="option._id"
@@ -58,8 +59,8 @@
       </div>
       <div class="form-inline mb-2" v-for="(item, index) in item.properties" :key="item.properties">
         <div class="form-group">
-          <input type="text" class="form-control mr-2" v-model="item.label" placeholder="Property">
-          <input type="text" class="form-control mr-2" v-model="item.value" placeholder="Value">
+          <input type="text" class="form-control mr-2" v-model="item.label" placeholder="Property" />
+          <input type="text" class="form-control mr-2" v-model="item.value" placeholder="Value" />
           <a class="btn btn-warning text-white" v-on:click="deleteProperty(index)">Delete</a>
         </div>
         <br />
@@ -79,7 +80,7 @@ export default {
       item: {
         properties: []
       },
-      contract: null,
+      contract: {},
       options: []
     };
   },
@@ -137,11 +138,61 @@ export default {
       this.axios
         .put(uri, this.item, auth)
         .then(() => {
-          this.$router.push({ name: "EmployeeList" });
+          this.getContract();
         })
         .catch(function() {
           router.push("/SignIn");
         });
+    },
+    getContract() {
+      const router = this.$router;
+      const auth = {
+        headers: { "auth-token": localStorage.authtoken }
+      };
+      let uri = "http://localhost:4000/api/contracts/" + this.item.contract;
+      this.axios
+        .get(uri, auth)
+        .then(response => {
+          this.contract = response.data;
+          this.contract.assignedto = this.$route.params.id;
+          this.updateContract();
+        })
+        .catch(function() {
+          router.push("/SignIn");
+        });
+    },
+    updateContract() {
+      const auth = {
+        headers: { "auth-token": localStorage.authtoken }
+      };
+      const router = this.$router;
+      this.options.forEach(element => {
+        let uri = "http://localhost:4000/api/contracts/" + element._id;
+        if (element.assignedto === this.$route.params.id) {
+          element.assignedto = "";
+          this.axios
+            .put(uri, element, auth)
+            .then(() => {
+              this.$router.push({ name: "EmployeeList" });
+            })
+            .catch(function() {
+              router.push("/SignIn");
+            });
+        }
+      });
+      if (this.item.contract !== "") {
+        let uri = "http://localhost:4000/api/contracts/" + this.item.contract;
+        this.axios
+          .put(uri, this.contract, auth)
+          .then(() => {
+            this.$router.push({ name: "EmployeeList" });
+          })
+          .catch(function() {
+            router.push("/SignIn");
+          });
+      } else {
+        this.$router.push({ name: "EmployeeList" });
+      }
     }
   }
 };

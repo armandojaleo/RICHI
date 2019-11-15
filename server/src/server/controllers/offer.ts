@@ -12,7 +12,7 @@ class OfferController {
 
     // Get all offers
     public getOffers = async (req: Request, res: Response) => {
-        const offers = await Contract.find();
+        const offers = await Contract.find( {$or: [{assignedto: ""}, {assignedto: { $exists: false }}]} );
         if (!offers) {
             return res.status(404).json('No Offers found');
         }

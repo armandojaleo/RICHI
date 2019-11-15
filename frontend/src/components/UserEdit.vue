@@ -67,7 +67,9 @@
 export default {
   data() {
     return {
-      item: {},
+      item: {
+        properties: []
+      },
       options: [
         { value: "Admin", text: "Admin" },
         { value: "Manager", text: "Manager" },

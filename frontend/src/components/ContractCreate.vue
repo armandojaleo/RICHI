@@ -46,7 +46,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label>Description</label>
-            <textarea class="form-control" v-model="item.description" required></textarea>
+            <vue-editor v-model="item.description"></vue-editor>
           </div>
         </div>
       </div>
@@ -68,6 +68,7 @@
 
 <script>
 import toastr from "toastr";
+import { VueEditor } from "vue2-editor";
 
 export default {
   data() {
@@ -77,6 +78,11 @@ export default {
       }
     };
   },
+
+  components: {
+    VueEditor
+  },
+
   methods: {
     createContract() {
       const router = this.$router;
