@@ -9,7 +9,7 @@
         >Create Resource</router-link>
       </div>
     </div>
-    <b-table small hover responsive :busy="isBusy" :items="filtered" :fields="fields">
+    <b-table v-if="items.length > 0" small hover responsive :busy="isBusy" :items="filtered" :fields="fields">
       <template v-slot:table-busy>
         <div class="text-center text-primary my-2">
           <b-spinner class="align-middle"></b-spinner>
@@ -26,6 +26,7 @@
         <button class="btn btn-danger btn-sm ml-1" v-on:click="deleteResource(data.item._id)">Delete</button>
       </template>
     </b-table>
+    <div v-else>No resources, please create one.</div>
   </div>
 </template>
 
@@ -67,11 +68,7 @@ export default {
       });
       return filtered.length > 0
         ? filtered
-        : [
-            {
-              name: ""
-            }
-          ];
+        : [];
     }
   },
 

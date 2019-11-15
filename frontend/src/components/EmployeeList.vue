@@ -6,7 +6,7 @@
         <router-link
           :to="{ name: 'UserCreate' }"
           class="btn btn-primary float-right mt-2"
-        >Create Employee</router-link>
+        >Create User</router-link>
       </div>
     </div>
     <b-table small hover responsive :busy="isBusy" :items="filtered" :fields="fields">
@@ -26,7 +26,7 @@
         </td>
       </template>
       <template v-slot:cell(action)="data">
-        <router-link :to="'/users/' + data.item._id" class="btn btn-primary btn-sm ml-1">Edit</router-link>
+        <router-link :to="'/employees/' + data.item._id" class="btn btn-primary btn-sm ml-1">Edit</router-link>
         <button class="btn btn-danger btn-sm ml-1" v-on:click="deleteEmployee(data.item._id)">Delete</button>
       </template>
     </b-table>
@@ -44,10 +44,11 @@ export default {
         name: ""
       },
       items: [],
+      contracts: [],
       fields: [
         {
           label: "Contract",
-          key: "contract",
+          key: "nameContract",
           sortable: true
         },
         {
@@ -69,12 +70,19 @@ export default {
   },
 
   created: function() {
+    this.fetchContracts();
     this.fetchEmployees();
   },
 
   computed: {
     filtered() {
-      const filtered = this.items.filter(item => {
+      const itemsMap = this.items;
+      const contractsMap = this.contracts;
+      this.items.forEach((item, index) => {
+        let contractFinded = contractsMap.find(contract => contract._id == item.contract);
+        itemsMap[index].nameContract = contractFinded.name;
+      }); 
+      const filtered = itemsMap.filter(item => {
         return Object.keys(this.filters).every(key =>
           String(item[key])
             .toLowerCase()
@@ -94,6 +102,21 @@ export default {
   },
 
   methods: {
+    fetchContracts() {
+      const router = this.$router;
+      const auth = {
+        headers: { "auth-token": localStorage.authtoken }
+      };
+      let uri = "http://localhost:4000/api/contracts";
+      this.axios
+        .get(uri, auth)
+        .then(response => {
+          this.contracts = response.data;
+        })
+        .catch(function() {
+          router.push("/SignIn");
+        });
+    },
     fetchEmployees() {
       this.isBusy = true;
       const router = this.$router;
