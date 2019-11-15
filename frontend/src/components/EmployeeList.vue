@@ -79,11 +79,13 @@ export default {
       const itemsMap = this.items;
       const contractsMap = this.contracts;
       this.items.forEach((item, index) => {
-        let contractFinded = contractsMap.find(
-          contract => contract._id == item.contract
-        );
-        if (contractFinded) {
-          itemsMap[index].nameContract = contractFinded.name;
+        if (item.contract !== "" && item.contract !== undefined) {
+          let contractFinded = contractsMap.find(
+            contract => contract._id == item.contract
+          );
+          if (contractFinded) {
+            itemsMap[index].nameContract = contractFinded.name;
+          }
         }
       });
       const filtered = itemsMap.filter(item => {
