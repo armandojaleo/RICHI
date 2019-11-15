@@ -21,6 +21,14 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" v-model="item.name" required />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
             <label>Email</label>
             <input type="text" class="form-control" v-model="item.email" required />
           </div>
@@ -59,8 +67,9 @@
 export default {
   data() {
     return {
-      item: {},
-      role: null,
+      item: {
+        properties: []
+      },
       options: [
         { value: "Admin", text: "Admin" },
         { value: "Manager", text: "Manager" },

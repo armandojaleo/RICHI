@@ -5,7 +5,7 @@
         <h1 class="d-inline">Offers</h1>
         <router-link
           v-if="role == 'Admin' || role == 'Manager'"
-          :to="{ name: 'OfferCreate' }"
+          :to="{ name: 'ContractCreate' }"
           class="btn btn-primary float-right mt-2"
         >Create Offer</router-link>
       </div>

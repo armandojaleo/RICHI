@@ -9,7 +9,7 @@
         >Create Resource</router-link>
       </div>
     </div>
-    <b-table small hover responsive :busy="isBusy" :items="filtered" :fields="fields">
+    <b-table v-if="items.length > 0" small hover responsive :busy="isBusy" :items="filtered" :fields="fields">
       <template v-slot:table-busy>
         <div class="text-center text-primary my-2">
           <b-spinner class="align-middle"></b-spinner>
@@ -22,38 +22,11 @@
         </td>
       </template>
       <template v-slot:cell(action)="data">
-        <router-link :to="'/contracts/' + data.item._id" class="btn btn-primary btn-sm ml-1">Edit</router-link>
+        <router-link :to="'/resources/' + data.item._id" class="btn btn-primary btn-sm ml-1">Edit</router-link>
         <button class="btn btn-danger btn-sm ml-1" v-on:click="deleteResource(data.item._id)">Delete</button>
       </template>
     </b-table>
-    <div v-if="items.length > 0">
-      <div class="table-responsive-sm">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scrope="col">Name</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr scope="row" v-for="(item, index) in items" :key="item.item">
-              <td>{{ item.name }}</td>
-              <td>
-                <router-link
-                  :to="{ name: 'ResourceEdit', params: {id: item._id} }"
-                  class="btn btn-primary btn-sm ml-1"
-                >Edit</router-link>
-                <button
-                  class="btn btn-danger btn-sm ml-1"
-                  v-on:click="deleteResource(item._id, index)"
-                >Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div v-else>There aren't data</div>
+    <div v-else>No resources, please create one.</div>
   </div>
 </template>
 
@@ -61,7 +34,22 @@
 export default {
   data() {
     return {
-      items: []
+      isBusy: false,
+      filters: {
+        name: ""
+      },
+      items: [],
+      fields: [
+        {
+          label: "Name",
+          key: "name",
+          sortable: true
+        },
+        {
+          label: "Actions",
+          key: "action"
+        }
+      ]
     };
   },
 
@@ -69,20 +57,39 @@ export default {
     this.fetchResources();
   },
 
+  computed: {
+    filtered() {
+      const filtered = this.items.filter(item => {
+        return Object.keys(this.filters).every(key =>
+          String(item[key])
+            .toLowerCase()
+            .includes(this.filters[key].toLowerCase())
+        );
+      });
+      return filtered.length > 0
+        ? filtered
+        : [];
+    }
+  },
+
   methods: {
     fetchResources() {
+      this.isBusy = true;
       const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
       };
       let uri = "http://localhost:4000/api/resources";
       this.axios.get(uri, auth).then(response => {
-        this.items = response.data;
+        if (response.status) {
+            this.items = response.data;
+          }
+          this.isBusy = false;
       }).catch(function () {
         router.push("/SignIn");
       });
     },
-    deleteResource(id, index) {
+    deleteResource(id) {
       const router = this.$router;
       const auth = {
         headers: { "auth-token": localStorage.authtoken }
@@ -90,7 +97,8 @@ export default {
       const response = confirm("are you sure you want to delete?");
       if (response) {
         let uri = "http://localhost:4000/api/resources/" + id;
-        this.items.splice(index, 1);
+        let index = this.items.findIndex(item => item._id === id);
+        if (index >= 0) this.items.splice(index, 1);
         this.axios.delete(uri, auth).catch(function () {
         router.push("/SignIn");
       });
