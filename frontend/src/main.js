@@ -1,21 +1,13 @@
-import '@babel/polyfill'
-import 'mutationobserver-shim'
-import Vue from 'vue'
-
-
-import './plugins/bootstrap-vue'
-import App from './App.vue'
-import VueRouter from 'vue-router'
-import {
-  store
-} from './components/store';
-
-Vue.use(VueRouter)
-
+import Vue from 'vue';
+import App from './App.vue';
+import vuetify from './plugins/vuetify';
+import VueRouter from 'vue-router';
 import VueAxios from 'vue-axios';
 import axios from 'axios';
-Vue.use(VueAxios, axios);
+import './plugins/bootstrap-vue'
 
+Vue.use(VueRouter)
+Vue.use(VueAxios, axios);
 Vue.use(require('vue-moment'));
 
 import Welcome from './components/Welcome.vue';
@@ -387,7 +379,7 @@ router.beforeEach((to, from, next) => {
 Vue.config.productionTip = false
 
 new Vue({
-  render: h => h(App),
-  store,
-  router
+  vuetify,
+  router,
+  render: h => h(App)
 }).$mount('#app')

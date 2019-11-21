@@ -1,56 +1,43 @@
 <template lang="html">
 
-  <section class="sign-in">
-    <div class="row p-4">
-      <div class="col-md-12">
-        <h1 class="d-inline">Sign In</h1>
-      </div>
-    </div>
-    <b-form v-on:submit.prevent="signin">
-      <b-form-group
-        id="emaillabel"
-        label-cols-sm="4"
-        label-cols-lg="3"
-        description="Let us know your email."
-        label="Enter your email"
-        label-for="email">
-        <b-form-input 
-          id="input-horizontal" 
-          v-model="item.email"
-          required>
-        </b-form-input>
-      </b-form-group>
-      <b-form-group
-        id="passwordlabel"
-        label-cols-sm="4"
-        label-cols-lg="3"
-        description="Let us know your password."
-        label="Enter your password"
-        label-for="password">
-        <b-form-input 
-          id="password"
-          v-model="item.password"
-          type="password"
-          required>
-        </b-form-input>
-      </b-form-group>
-      <b-button type="submit" variant="success">Success</b-button>
-    </b-form>
-  </section>
-
+  <v-form
+    ref="form"
+    v-model="valid"
+    lazy-validation
+  >
+    <v-text-field
+      v-model="item.email"
+      :rules="emailRules"
+      label="E-mail"
+      required
+    ></v-text-field>
+    <v-text-field
+      v-model="item.password"
+      label="Password"
+      required
+    ></v-text-field>
+    <v-btn
+      :disabled="!valid"
+      color="primary"
+      class="mr-4"
+      @click="signin"
+    >SignIn
+    </v-btn>
+  </v-form>
 </template>
 
 <script lang="js">
 
   export default  {
     name: 'sign-in',
-    props: [],
-    mounted () {
-
-    },
     data () {
       return {
-        item: {}
+        valid: true,
+        item: {},
+        emailRules: [
+          v => !!v || 'E-mail is required',
+          v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+        ],
       }
     },
     methods: {
